@@ -29,4 +29,3 @@ coverage
 
 # Vite artifacts
 /.vite/
-/vite.config.js
