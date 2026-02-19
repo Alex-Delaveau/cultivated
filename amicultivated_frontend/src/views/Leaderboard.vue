@@ -1,7 +1,7 @@
 <template>
     <div class="leaderboard-page">
         <h1 class="title">Classement Global</h1>
-        <div class="leaderboard-container">
+        <div class="leaderboard-container card">
             <div v-if="loading" class="loading-text">Chargement...</div>
             <table v-else-if="leaderboard.length > 0" class="leaderboard-table">
                 <thead>
@@ -71,29 +71,28 @@ onMounted(async () => {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
+    color: var(--text-primary);
 }
 
 .leaderboard-container {
-    background: rgb(17, 24, 39);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
+    padding: 0;
     overflow: hidden;
 }
 
 .leaderboard-table {
     width: 100%;
     border-collapse: collapse;
-    color: rgba(243, 244, 246, 1);
+    color: var(--text-primary);
 }
 
 .leaderboard-table th {
     text-align: left;
     padding: 0.75rem 1rem;
-    border-bottom: 2px solid rgba(167, 139, 250, 0.4);
+    border-bottom: 2px solid var(--color-primary-border);
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: rgba(243, 244, 246, 0.6);
+    color: var(--text-secondary);
 }
 
 .leaderboard-table td {
@@ -117,19 +116,37 @@ onMounted(async () => {
 }
 
 .score {
-    color: #a78bfa;
+    color: var(--color-primary);
     font-weight: 700;
     font-size: 1.1rem;
 }
 
 .row--me {
-    background-color: rgba(167, 139, 250, 0.1);
+    background-color: var(--color-primary-muted);
 }
 
 .loading-text {
-    color: rgba(243, 244, 246, 0.7);
+    color: var(--text-secondary);
     font-size: 1.1rem;
     text-align: center;
     padding: 2rem;
+}
+
+@media (max-width: 500px) {
+    .leaderboard-page {
+        padding: var(--space-md) var(--space-sm);
+    }
+
+    .leaderboard-container {
+        overflow-x: auto;
+    }
+
+    /* Masquer Victoires et Parties sur mobile */
+    .leaderboard-table th:nth-child(4),
+    .leaderboard-table th:nth-child(5),
+    .leaderboard-table td:nth-child(4),
+    .leaderboard-table td:nth-child(5) {
+        display: none;
+    }
 }
 </style>

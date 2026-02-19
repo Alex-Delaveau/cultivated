@@ -41,7 +41,7 @@
         <!-- Hint button (50/50) -->
         <div class="hint-container" v-if="!currentRoundInfos.hasAnswered">
             <button
-                class="hint-btn"
+                class="btn hint-btn"
                 :disabled="hintUsed"
                 @click="useHint()"
                 :title="hintUsed ? 'Indice déjà utilisé' : 'Utiliser un indice 50/50 (score divisé par 2)'"
@@ -193,6 +193,7 @@ watch(() => currentRoundInfos.value.hasAnswered, (answered) => {
     line-height: 2rem;
     font-weight: 700;
     margin-bottom: 1em;
+    color: var(--text-primary);
 }
 
 /* Timer */
@@ -202,7 +203,7 @@ watch(() => currentRoundInfos.value.hasAnswered, (answered) => {
     display: flex;
     align-items: center;
     gap: 0.75em;
-    background-color: #e5e7eb;
+    background-color: rgba(255, 255, 255, 0.08);
     border-radius: 999px;
     overflow: hidden;
     position: relative;
@@ -211,13 +212,13 @@ watch(() => currentRoundInfos.value.hasAnswered, (answered) => {
 
 .timer-bar {
     height: 100%;
-    background-color: #a78bfa;
+    background-color: var(--color-primary);
     border-radius: 999px;
     transition: width 1s linear, background-color 0.3s;
 }
 
 .timer-bar--low {
-    background-color: #ef4444;
+    background-color: var(--color-danger);
 }
 
 .timer-text {
@@ -225,17 +226,19 @@ watch(() => currentRoundInfos.value.hasAnswered, (answered) => {
     right: 0.75em;
     font-size: 0.85rem;
     font-weight: 700;
-    color: #374151;
+    color: var(--text-primary);
 }
 
 .timer-text--low {
-    color: #ef4444;
+    color: var(--color-danger);
 }
 
 .img img {
     width: auto;
     margin: auto;
-    border: 4px solid white;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-card);
 }
 
 .art-frame {
@@ -257,7 +260,7 @@ watch(() => currentRoundInfos.value.hasAnswered, (answered) => {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: grey;
+    color: var(--text-primary);
     font-size: large;
     font-weight: 700;
 }
@@ -265,7 +268,9 @@ watch(() => currentRoundInfos.value.hasAnswered, (answered) => {
 .answer-button {
     width: 100%;
     border-radius: 1em;
-    background-color: white;
+    background-color: var(--color-card);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     transition: background-color 0.3s;
     cursor: pointer;
     padding: 0.5em;
@@ -273,24 +278,26 @@ watch(() => currentRoundInfos.value.hasAnswered, (answered) => {
 
 .answer-button:hover:not(:disabled) {
     width: 90%;
-    background-color: lightsalmon;
+    background-color: var(--color-primary-muted);
 }
 
 .answer-correct {
-    background-color: #22c55e !important;
-    color: white !important;
+    background-color: var(--color-success-muted) !important;
+    color: var(--color-success) !important;
+    border-color: var(--color-success) !important;
     cursor: default;
 }
 
 .answer-wrong {
-    background-color: #ef4444 !important;
-    color: white !important;
+    background-color: var(--color-danger-muted) !important;
+    color: var(--color-danger) !important;
+    border-color: var(--color-danger) !important;
     cursor: default;
 }
 
 .answer-dimmed {
-    background-color: #e5e7eb !important;
-    color: #9ca3af !important;
+    background-color: rgba(255, 255, 255, 0.04) !important;
+    color: var(--text-muted) !important;
     cursor: default;
     opacity: 0.7;
 }
@@ -303,24 +310,26 @@ watch(() => currentRoundInfos.value.hasAnswered, (answered) => {
 }
 
 .hint-btn {
-    padding: 0.4em 1.2em;
-    background-color: #fbbf24;
-    color: #1f2937;
-    border: none;
-    border-radius: 6px;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
+    background-color: var(--color-warning-muted);
+    color: var(--color-warning);
+    border-color: rgba(251, 191, 36, 0.4);
 }
 
 .hint-btn:hover:not(:disabled) {
-    background-color: #f59e0b;
+    background-color: rgba(251, 191, 36, 0.25);
 }
 
-.hint-btn:disabled {
-    background-color: #d1d5db;
-    color: #9ca3af;
-    cursor: not-allowed;
+@media (max-width: 600px) {
+    .art-frame {
+        width: 90%;
+    }
+
+    .timer-container {
+        width: 90%;
+    }
+
+    .response {
+        grid-template-columns: 1fr;
+    }
 }
 </style>

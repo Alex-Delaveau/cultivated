@@ -2,7 +2,7 @@
     <div class="title">
         <h1>Bonjour, {{ store.getters.user.username }}</h1>
     </div>
-    <div class="profile-container">
+    <div class="profile-container card">
         <div class="form-front" v-if="stats">
             <div class="stat-grid">
                 <div class="stat-card">
@@ -50,22 +50,17 @@ onMounted(async () => {
 
 <style scoped>
 .profile-container {
-    width: 600px;
+    width: min(600px, 90vw);
     min-height: 10em;
     display: flex;
-    margin: auto;
-    margin-top: 2em;
-    background: rgb(17, 24, 39);
-    background: radial-gradient(circle, rgba(17, 24, 39, 1) 0%, rgba(21, 31, 54, 1) 100%);
-    border-radius: 0.75rem;
-    padding: 2rem;
+    margin: var(--space-xl) auto;
     justify-content: center;
     align-items: center;
 }
 
 .form-front {
     width: 100%;
-    color: rgba(243, 244, 246, 1);
+    color: var(--text-primary);
 }
 
 .title {
@@ -74,6 +69,7 @@ onMounted(async () => {
     line-height: 2rem;
     font-weight: 700;
     margin-top: 1em;
+    color: var(--text-primary);
 }
 
 .stat-grid {
@@ -87,23 +83,23 @@ onMounted(async () => {
     border-radius: 0.5rem;
     padding: 1.5rem;
     text-align: center;
-    border: 1px solid rgba(167, 139, 250, 0.3);
+    border: 1px solid var(--color-primary-border);
 }
 
 .stat-value {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #a78bfa;
+    color: var(--color-primary);
 }
 
 .stat-label {
     font-size: 0.9rem;
-    color: rgba(243, 244, 246, 0.7);
+    color: var(--text-secondary);
     margin-top: 0.25rem;
 }
 
 .loading-text {
-    color: rgba(243, 244, 246, 0.7);
+    color: var(--text-secondary);
     font-size: 1.1rem;
 }
 </style>

@@ -4,16 +4,23 @@
             <h1>Fin de la partie, {{ store.getters.user.username }}</h1>
             <h3>Tu es classé {{ computeRanking() }} / {{ playersLength }} !</h3>
         </div>
-        <div class="profile-container">
-            <div class="player-card" v-for="player in sortedPlayers">
+        <div class="profile-container card">
+            <div class="player-card" v-for="(player, index) in sortedPlayers" :key="player.username">
                 <div class="player-info">
-                    <p class="name">{{ player.username}} </p>
+                    <span class="rank-badge">
+                        <span v-if="index === 0">🥇</span>
+                        <span v-else-if="index === 1">🥈</span>
+                        <span v-else-if="index === 2">🥉</span>
+                        <span v-else>#{{ index + 1 }}</span>
+                    </span>
+                    <span class="avatar" style="background-color: var(--color-primary)">{{ player.username.charAt(0).toUpperCase() }}</span>
+                    <p class="name">{{ player.username }}</p>
                     <p class="score">{{ player.score }}</p>
                 </div>
             </div>
         </div>
-        <div class="home" >
-            <button @click="quitGame()">Quitter la partie</button>
+        <div class="home-actions">
+            <button class="btn btn-primary" @click="quitGame()">Quitter la partie</button>
         </div>
     </div>
 </template>
@@ -45,25 +52,23 @@ const computeRanking = () => {
 }
 </script>
 
-<style  scoped>
+<style scoped>
 
-.end-game-container{
+.end-game-container {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    padding: var(--space-xl) var(--space-md);
 }
+
 .profile-container {
-    width: fit-content;
+    width: min(480px, 95vw);
     display: flex;
     flex-direction: column;
     margin: auto;
-    background: rgb(17, 24, 39);
-    background: radial-gradient(circle, rgba(17, 24, 39, 1) 0%, rgba(21, 31, 54, 1) 100%);
-    border-radius: 0.75rem;
-
 }
 
 .title {
@@ -71,64 +76,56 @@ const computeRanking = () => {
     font-size: 2rem;
     line-height: 2rem;
     font-weight: 700;
-    margin-bottom: 2em;
+    margin-bottom: var(--space-xl);
+    color: var(--text-primary);
 }
 
-.title h3{
-    margin-top: 3em;
+.title h3 {
+    margin-top: var(--space-lg);
     font-size: 1.5rem;
+    color: var(--text-secondary);
 }
 
 .player-card {
     width: 100%;
     display: flex;
     flex-direction: column;
-    transition: 3s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.player-card:last-child {
+    border-bottom: none;
 }
 
 .player-info {
-    width: 20em;
+    width: 100%;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) 0;
 }
 
-.player-info p {
-    padding: 1em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    line-height: 1.5rem;
-    font-weight: 400;
+.rank-badge {
+    font-size: 1.25rem;
+    min-width: 2rem;
+    text-align: center;
 }
 
 .name {
-    padding: 2em;
-    width: 50%;
+    flex: 1;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
 .score {
-    padding: 2em;
-    margin: auto;
-}
-.home {
-    margin-top: 2em;
-    background-color: white;
-    border-radius:5px;
-    margin-bottom: 2em;
-    text-align: center;
-    color: black;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-primary);
 }
 
-.home button {
-    width: 10em;
-    height: 2.5em;
-    border-radius: 5px;
-    font-size: 1.3rem;
-    font-weight: 500;
-}
-
-.home:hover {
-    background-color: rgb(170, 170, 170);
+.home-actions {
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-xl);
 }
 </style>

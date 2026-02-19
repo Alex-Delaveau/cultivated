@@ -2,8 +2,9 @@
     <div class="game-container" v-if="displayGame()">
         <div class="left-container">
             <div class="players">
-                <h2>Joueurs</h2>
+                <h2 class="label-text">Joueurs</h2>
                 <div class="player-card" v-for="player in props.roomInfos.players" :key="player.username">
+                    <span class="avatar" style="background-color: var(--color-primary)">{{ player.username.charAt(0).toUpperCase() }}</span>
                     <span class="player-name">{{ player.username }}</span>
                     <span class="player-score">{{ displayScores[player.username] ?? player.score }}</span>
                     <span
@@ -17,7 +18,7 @@
                 </div>
             </div>
             <div class="leave-room">
-                <button class="full-button" @click="leaveGame()">Quitter la Room</button>
+                <button class="btn btn-danger btn-sm" @click="leaveGame()">Quitter la Room</button>
             </div>
         </div>
         <div class="main-container">
@@ -253,73 +254,73 @@ defineExpose({ onScoresUpdated });
 <style scoped>
 .game-container {
     display: flex;
-    margin-top: 2em;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    padding: 0 var(--space-md);
 }
 
 .left-container {
     width: 15%;
-    margin-left: 3em;
+    min-width: 130px;
+    margin-left: var(--space-md);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    gap: var(--space-md);
 }
 
 .main-container {
-    width: 85%;
-    margin-left: 2em;
+    flex: 1;
+    min-width: 0;
 }
-
 
 .leave-room {
-    margin: auto;
-    margin-top: 2em;
-    width: 7em;
-    background-color: black;
-    border-radius: 5px;
-    margin-bottom: 5em;
-}
-
-.leave-room:hover {
-    background-color: rgb(55, 40, 55);
-    color: white;
+    margin-top: var(--space-sm);
 }
 
 .players {
     width: 100%;
-    background-color: white;
+    background-color: var(--color-surface-dark);
+    border-radius: var(--radius-card);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
 }
 
 .players h2 {
-    background-color: grey;
+    padding: var(--space-sm) var(--space-md);
     text-align: center;
-    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .player-card {
-    color: black;
     font-weight: 600;
-    font-size: large;
-    padding: 0.2em;
+    padding: var(--space-sm);
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0.2em;
-    border-radius: 1em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     position: relative;
 }
 
+.player-card:last-child {
+    border-bottom: none;
+}
+
 .player-name {
-    font-size: 1rem;
+    font-size: 0.875rem;
+    color: var(--text-primary);
 }
 
 .player-score {
     font-size: 1.2rem;
     font-weight: 700;
+    color: var(--color-primary);
 }
 
 .streak-badge {
     font-size: 0.85rem;
-    color: #f97316;
+    color: var(--color-streak);
     font-weight: 700;
 }
 
@@ -327,7 +328,7 @@ defineExpose({ onScoresUpdated });
     position: absolute;
     top: -0.5em;
     right: 0.2em;
-    color: #22c55e;
+    color: var(--color-success);
     font-weight: 700;
     font-size: 0.9rem;
     animation: floatUp 1.5s ease-out forwards;
@@ -337,5 +338,30 @@ defineExpose({ onScoresUpdated });
 @keyframes floatUp {
     from { opacity: 1; transform: translateY(0); }
     to   { opacity: 0; transform: translateY(-30px); }
+}
+
+@media (max-width: 700px) {
+    .game-container {
+        flex-direction: column;
+        padding: 0 var(--space-sm);
+    }
+
+    .left-container {
+        width: 100%;
+        min-width: unset;
+        margin-left: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .main-container {
+        width: 100%;
+    }
+
+    .players {
+        flex: 1;
+    }
 }
 </style>

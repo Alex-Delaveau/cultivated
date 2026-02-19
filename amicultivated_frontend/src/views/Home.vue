@@ -1,33 +1,47 @@
 <template>
-  <main>
-    <div class="noroom" v-if="!hasCurrentRoom()">
-    <div class="title">
-      <h1>Bienvenue sur AMICULTIVATED, l'application pour tester vos connaissances en matière de peinture .</h1>
-    </div>
-    <div class="main-div"  >
-      <div class="main-image">
-        <img src="../assets/art.jpg">
+  <main class="home-page">
+    <div v-if="!hasCurrentRoom()">
+
+      <!-- Hero -->
+      <section class="hero">
+        <h1 class="hero-title">Testez vos connaissances<br />en histoire de l'art.</h1>
+        <p class="hero-sub">Quiz multijoueur · Toiles célèbres · Défis chronométrés</p>
+      </section>
+
+      <!-- Carte d'action principale -->
+      <div class="home-card card">
+        <div class="home-image">
+          <img src="../assets/art.jpg" alt="Œuvre d'art" />
+        </div>
+        <div class="home-actions">
+          <p class="error-banner" v-if="errorMessage">{{ errorMessage }}</p>
+
+          <div class="join-section">
+            <h2 class="section-title">Rejoindre une partie</h2>
+            <p class="join-hint">Entrez le code partagé par l'hôte</p>
+            <input
+              class="input-field code-input"
+              type="text"
+              v-model="roomCode"
+              placeholder="Ex : H68UYZ"
+            />
+            <button class="btn btn-primary btn-action" @click="joinRoom()">Rejoindre</button>
+          </div>
+
+          <hr class="divider" />
+
+          <div class="create-section">
+            <p class="create-hint">Ou lancez votre propre partie</p>
+            <button class="btn btn-outline btn-action" @click="createRoom()">Créer une room</button>
+          </div>
+        </div>
       </div>
-      <div class="main-game">
-        <div class="error">
-            <p id="error-message" v-if="errorMessage">{{ errorMessage }}</p>
-        </div>
-        <div class="main-join">
-          <h2>Entrez le code de la partie</h2>
-          <input type="text" name="" id="" v-model="roomCode" placeholder="Ex: H68UYZ"/>
-          <button @click="joinRoom()">Rejoindre la room</button>
-        </div>
-        <div class="main-create">
-          <h2>ou</h2>
-          <button  @click="createRoom()">Créer une room</button>
-        </div>
-      </div>
+
     </div>
-  </div>
-  <AlreadyInGame v-if="hasCurrentRoom()" @leaveRoom="leaveRoom" @joinRoom="joinRoom"/>
+
+    <AlreadyInGame v-if="hasCurrentRoom()" @leaveRoom="leaveRoom" @joinRoom="joinRoom" />
   </main>
 </template>
-
 
 <script setup>
 import { ref } from 'vue'
@@ -36,8 +50,6 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import AlreadyInGame from '../components/game/AlreadyInGame.vue';
 
-
-
 const room = ref()
 const roomCode = ref()
 const store = useStore();
@@ -45,180 +57,152 @@ const api = new API(store);
 const errorMessage = ref('')
 const router = useRouter();
 
-
-
 const hasCurrentRoom = () => {
-    const hasCurrentRoom = store.getters.currentRoomInfos.code != "" 
-    && store.getters.currentRoomInfos.code != '' 
-    && store.getters.currentRoomInfos.code != null 
-    && store.getters.currentRoomInfos.code != undefined;
-    return hasCurrentRoom
+  const code = store.getters.currentRoomInfos.code;
+  return code != null && code !== '' && code !== undefined;
 }
 
 const joinRoom = async () => {
-    try {
-        if(roomCode.value == "") throw new Error("Le code de la room ne peut pas être vide");
-        let username = store.getters.user.username;
-        await api.joinRoom(roomCode.value, username)
-        router.push({ name: 'room', params: { roomCode: roomCode.value } });
-    } catch (error) {
-        errorMessage.value = "Erreur : " + (error.response?.data?.message || 'Serveur injoignable, veuillez réessayer');
-    }
+  try {
+    if (!roomCode.value) throw new Error("Le code de la room ne peut pas être vide");
+    const username = store.getters.user.username;
+    await api.joinRoom(roomCode.value, username);
+    router.push({ name: 'room', params: { roomCode: roomCode.value } });
+  } catch (error) {
+    errorMessage.value = error.response?.data?.message || 'Serveur injoignable, veuillez réessayer';
+  }
 }
 
 const leaveRoom = async () => {
-    try {
-        let username = store.getters.user.username;
-        await api.leaveRoom(username)
-    } catch (error) {
-        errorMessage.value = "Erreur : " + (error.response?.data?.message || 'Serveur injoignable, veuillez réessayer');
-    }
+  try {
+    const username = store.getters.user.username;
+    await api.leaveRoom(username);
+  } catch (error) {
+    errorMessage.value = error.response?.data?.message || 'Serveur injoignable, veuillez réessayer';
+  }
 }
 
 const createRoom = async () => {
-    try {
-        let username = store.getters.user.username;
-        room.value = await api.createRoom(username);
-        router.push({ name: 'room', params: { roomCode: room.value.code } });
-    } catch (error) {
-        errorMessage.value = "Erreur : " + (error.response?.data?.message || 'Serveur injoignable, veuillez réessayer');
-    }
+  try {
+    const username = store.getters.user.username;
+    room.value = await api.createRoom(username);
+    router.push({ name: 'room', params: { roomCode: room.value.code } });
+  } catch (error) {
+    errorMessage.value = error.response?.data?.message || 'Serveur injoignable, veuillez réessayer';
+  }
 }
 </script>
 
 <style scoped>
-.error {
-  color: red;
+.home-page {
+  padding: 0 var(--space-md) var(--space-2xl);
 }
-.title {
-  margin: 0 auto;
+
+/* ── Hero ──────────────────────────────────────────────── */
+.hero {
   text-align: center;
-  padding-bottom: 1em;
+  padding: var(--space-2xl) 0 var(--space-xl);
+}
+
+.hero-title {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
   font-weight: 900;
-  width: 70%;
-  font-size:xx-large;
+  color: var(--text-primary);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-md);
 }
 
-.main {
-  display: inline-block;
+.hero-sub {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
-.games {
-  width: 15%;
-  float: left;
-  color: black;
-  padding: 1em;
-  background: white;
-  border-radius: 10px;
-  margin-bottom: 5em;
-  margin-left: 4em;
-
-}
-.games button {
-  float: right;
-  margin-left: 2em;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.games h2 {
-  color: purple;
-  font-size: large;
-  font-weight: 600;
-}
-
-.games-li {
-  margin-top: 2em;
-}
-
-.games-li button {
-  background-color: greenyellow;
-  font-weight: 900;
-}
-.main-div {
-  width: 60%;
-  object-fit: cover;
+/* ── Home card ─────────────────────────────────────────── */
+.home-card {
   display: flex;
-  margin:auto;
-  background: white;
-  border-radius: 10px;
-  margin-bottom: 5em;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
 }
 
-.main-join {
-  width: 50%;
+.home-image {
+  width: 42%;
+  flex-shrink: 0;
 }
 
-.main-image {
-  width: 50%;
-}
-.main-image img {
-  /* The image used */
-  border-radius: 10px 0px 0px 10px;
+.home-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.main-join {
-  width: 100%;
-}
-h2 {
-  margin: 10px;
-  font-size: 2em;
-  font-weight: bold;
-  color: purple;
-}
-
-.main-join input {
-  margin: 0 auto;
-  margin-top: 3em;
-  color: black;
   display: block;
-  border: 1px solid black;
-  border-radius: 0%;
-  padding: 10px;
-  width: 90%;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding-right:1em;
 }
 
-.main-join button {
-  margin: 0 auto;
-  background-color: purple;
-  color: white;
-  display: block;
-  border: 1px solid black;
-  border-radius: 0%;
-  padding: 10px;
-  width: 90%;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding-right:1em;
-}
-
-.main-create button {
-  margin: 0 auto;
-  background-color: purple;
-  color: white;
-  display: block;
-  border: 1px solid black;
-  border-radius: 0%;
-  padding: 10px;
-  width: 90%;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding-right:1em;
-}
-
-.main-create {
-  padding-bottom: 2em;
-}
-
-.main-create h2 {
+.home-actions {
+  flex: 1;
+  padding: var(--space-xl);
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+/* ── Error ─────────────────────────────────────────────── */
+.error-banner {
+  background-color: var(--color-danger-muted);
+  color: var(--color-danger);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-btn);
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* ── Join section ──────────────────────────────────────── */
+.join-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.join-hint,
+.create-hint {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.code-input {
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  font-size: 1rem;
+}
+
+/* ── Create section ────────────────────────────────────── */
+.create-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.btn-action {
+  width: 100%;
   justify-content: center;
 }
 
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .home-card {
+    flex-direction: column;
+  }
+
+  .home-image {
+    width: 100%;
+    height: 180px;
+  }
+}
 </style>

@@ -9,17 +9,18 @@
 
 <style scoped>
 
-
 .title {
     text-align: center;
     font-size: 2rem;
     line-height: 2rem;
     font-weight: 700;
+    color: var(--text-primary);
 }
 
 .loading-gif {
-    height: 400px;
-    width: 800px;
+    height: auto;
+    max-height: 400px;
+    width: min(800px, 100%);
     margin: auto;
     overflow: hidden;
     object-fit: cover;

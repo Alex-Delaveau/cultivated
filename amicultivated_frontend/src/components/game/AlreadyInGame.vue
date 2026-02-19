@@ -1,11 +1,11 @@
 <template>
-    <p class="title" id="room-code">Votre code de Room est : {{ store.getters.currentRoomInfos.code }}</p>
-    <div class="join-leave">
-        <div class="leave-room">
-            <button class="full-button" @click="leaveRoom()">Quitter la Room</button>
-        </div>
-        <div class="join-room">
-            <button class="full-button" @click="joinRoom( store.getters.currentRoomInfos.code)">Rejoindre la Room</button>
+    <div class="already-container">
+        <p class="title">Vous êtes déjà dans une Room</p>
+        <p class="room-code-label">Code de la room</p>
+        <p class="room-code-value">{{ store.getters.currentRoomInfos.code }}</p>
+        <div class="join-leave">
+            <button class="btn btn-danger" @click="leaveRoom()">Quitter la Room</button>
+            <button class="btn btn-primary" @click="joinRoom(store.getters.currentRoomInfos.code)">Rejoindre la Room</button>
         </div>
     </div>
 </template>
@@ -30,29 +30,43 @@ const joinRoom = (roomCode) => {
 </script>
 
 <style scoped>
-.title {
-  margin: 0 auto;
-  text-align: center;
-  padding-bottom: 1em;
-  font-weight: 900;
-  width: 70%;
-  font-size:xx-large;
-}
-.join-leave{
+.already-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100dvh - 64px);
+    gap: var(--space-md);
     text-align: center;
+    padding: var(--space-xl);
 }
 
-button {
-    margin-top: 2em;
-    background-color: black;
-    padding:1em;
-    border-radius: 5px;
-    color: white;
-    font-size: 1rem;
+.title {
+    font-size: 1.5rem;
     font-weight: 700;
-}
-button:hover {
-    background-color: rgb(55, 40, 55);
+    color: var(--text-primary);
 }
 
+.room-code-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+}
+
+.room-code-value {
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+}
+
+.join-leave {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    justify-content: center;
+    margin-top: var(--space-sm);
+}
 </style>

@@ -1,21 +1,26 @@
 <template>
-    <div class="head" v-if="store.getters.loggedIn">
-        <div class="icon">
-            <a href="/"><img src="../assets/AMICULTIVATED.svg">  </a>
-        </div>
-        <div class="items">
-            <ul>
-                <li><a href="/profil">Profil</a></li>
-                <li><a href="/leaderboard">Leaderboard</a></li>
-            </ul>
-        </div>
-        <div class="actions">
-            <button class="mute-btn" @click="toggleMute()" :title="isMuted ? 'Activer le son' : 'Couper le son'">
-                {{ isMuted ? '🔇' : '🔊' }}
-            </button>
-            <button @click="logout()">Se déconnecter</button>
-        </div>
+  <header class="app-header" v-if="store.getters.loggedIn">
+    <a href="/" class="logo-link">
+      <img src="../assets/AMICULTIVATED.svg" class="logo" alt="AMICULTIVATED" />
+    </a>
+
+    <nav class="nav-links">
+      <a href="/profil" class="nav-link">Profil</a>
+      <a href="/leaderboard" class="nav-link">Leaderboard</a>
+    </nav>
+
+    <div class="header-actions">
+      <button
+        class="btn btn-ghost btn-sm mute-btn"
+        @click="toggleMute()"
+        :title="isMuted ? 'Activer le son' : 'Couper le son'"
+        :aria-label="isMuted ? 'Activer le son' : 'Couper le son'"
+      >
+        {{ isMuted ? '🔇' : '🔊' }}
+      </button>
+      <button class="btn btn-outline btn-sm" @click="logout()">Se déconnecter</button>
     </div>
+  </header>
 </template>
 
 <script setup>
@@ -30,75 +35,91 @@ const { isMuted, toggleMute } = useSoundEffects();
 const authApi = new AuthAPI(store);
 
 const logout = async () => {
-    await authApi.logout(); // clears HttpOnly cookie on the server
-    await store.dispatch('logout');
-    router.push({ name: 'login' });
+  await authApi.logout();
+  await store.dispatch('logout');
+  router.push({ name: 'login' });
 };
-
 </script>
 
-
 <style scoped>
-.head {
-    width: 100%;
-    background-color: transparent;
-    padding-top: 3em;
-    padding-left: 3em;
-    padding-right: 3em;
-    padding-bottom: 1em;
-    top: 0;
-    display: flex;
-    align-items: center;
+.app-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: var(--space-md) var(--space-xl);
+  gap: var(--space-lg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.icon {
-    width: 6em;
+.logo-link {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 
-.items {
-    display: flex;
-    align-items: center;
-    width: 100%;
+.logo {
+  width: 5rem;
+  height: auto;
 }
 
-ul {
-    display: inline-flex;
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  flex: 1;
+  margin-left: var(--space-md);
 }
 
-li {
-    font-weight: bold;
-    margin-left: 2em;
+.nav-link {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-base);
 }
 
-li:hover {
-    font-weight: bold;
-    margin-left: 2em;
-    color: white;
+.nav-link:hover {
+  color: var(--text-primary);
 }
 
-.actions {
-    display: flex;
-    align-items: center;
-    gap: 1em;
-    white-space: nowrap;
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-shrink: 0;
 }
 
 .mute-btn {
-    background: none;
-    border: none;
-    font-size: 1.4rem;
-    cursor: pointer;
-    padding: 0.1em 0.3em;
-    border-radius: 4px;
-    transition: background-color 0.2s;
+  font-size: 1.1rem;
+  padding: 0.3rem 0.5rem;
 }
 
-.mute-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
+@media (max-width: 500px) {
+  .app-header {
+    padding: var(--space-sm);
+    gap: var(--space-sm);
+  }
 
-.actions button:last-child:hover {
-    font-weight: bold;
-    color: white;
+  .logo {
+    width: 3.5rem;
+  }
+
+  .nav-links {
+    gap: var(--space-sm);
+    margin-left: 0;
+  }
+
+  .nav-link {
+    font-size: 0.8rem;
+  }
+
+  .header-actions {
+    gap: 0.25rem;
+  }
 }
 </style>

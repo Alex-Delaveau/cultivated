@@ -17,8 +17,8 @@
                 </p>
             </div>
         </div>
-        <button v-if="!endGame" class="next-round" @click="startNextRound()">Next Round</button>
-        <button v-if="endGame" class="next-round" @click="endGamePage()">End game results</button>
+        <button v-if="!endGame" class="btn btn-primary next-round" @click="startNextRound()">Next Round</button>
+        <button v-if="endGame" class="btn btn-primary next-round" @click="endGamePage()">End game results</button>
     </div>
 </template>
 
@@ -47,7 +47,7 @@ const endGamePage = () => {
 </script>
 
 <style scoped>
-.main-frame{
+.main-frame {
     width: 100%;
     height: 100%;
     display: flex;
@@ -65,7 +65,7 @@ const endGamePage = () => {
     align-items: center;
 }
 
-.img{
+.img {
     width: 40%;
     height: 100%;
     display: flex;
@@ -83,46 +83,47 @@ const endGamePage = () => {
     font-size: 1.5rem;
     font-weight: 400;
     margin: 0.5em;
+    color: var(--text-secondary);
 }
 
 .strong-text {
     font-weight: 700;
+    color: var(--text-primary);
 }
 
 .img img {
     width: auto;
-    border: 4px solid white;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-card);
 }
 
 .wikiart-link {
-    color: #a78bfa;
+    color: var(--color-primary);
     font-weight: 700;
     text-decoration: underline;
 }
 
 .wikiart-link:hover {
-    color: #8c68f7;
+    color: var(--color-primary-hover);
 }
 
 .next-round {
-    margin-top: 2em;
-    width: 30%;
-    height: 100px;
-    background-color: black;
-    border-radius: 5px;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 2em;
+    margin-top: var(--space-xl);
+    min-width: 30%;
+    min-height: 3rem;
+    font-size: 1.2rem;
+    margin-bottom: var(--space-xl);
 }
 
-.next-round:hover {
-    background-color: rgb(55, 40, 55);
-}
+@media (max-width: 600px) {
+    .art-info {
+        flex-direction: column;
+    }
 
-.leave-room:hover {
-    background-color: rgb(55, 40, 55);
-    color: white;
+    .img,
+    .info {
+        width: 100%;
+    }
 }
-
 </style>
