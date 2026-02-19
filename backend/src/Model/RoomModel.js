@@ -30,6 +30,16 @@ class RoomModel extends BaseModel{
             adminId: {
                 type: DataTypes.INTEGER,
                 allowNull: false
+            },
+            timerSeconds: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 30
+            },
+            difficulty: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 0
             }
         })
         RoomModel.instance = this;

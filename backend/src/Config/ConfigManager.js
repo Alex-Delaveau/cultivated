@@ -26,6 +26,9 @@ export default class ConfigManager {
     }
 
     this.jwt_secret = process.env.JWT_SECRET
+    if (!this.jwt_secret) {
+        throw new Error("JWT_SECRET environment variable is required but not set. Server cannot start without it.");
+    }
 
     ConfigManager.instance = this;
   }

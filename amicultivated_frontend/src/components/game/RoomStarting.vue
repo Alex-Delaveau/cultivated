@@ -25,7 +25,28 @@
                                 @change="sliderChange()">
                             {{ props.roomInfos.maxRounds }}
                         </div>
-
+                    </div>
+                    <div class="max-players">
+                        <label for="timerRange">Durée par round (s)</label>
+                        <div class="slider">
+                            <input type="range" name="timerRange" id="" v-model="props.roomInfos.timerSeconds" max="60" min="10" step="5"
+                                @change="sliderChange()">
+                            {{ props.roomInfos.timerSeconds }}s
+                        </div>
+                    </div>
+                    <div class="difficulty-selector">
+                        <label>Difficulté</label>
+                        <div class="difficulty-buttons">
+                            <button
+                                :class="['diff-btn', props.roomInfos.difficulty === 0 ? 'diff-btn--active' : '']"
+                                @click="setDifficulty(0)">Facile</button>
+                            <button
+                                :class="['diff-btn', props.roomInfos.difficulty === 1 ? 'diff-btn--active' : '']"
+                                @click="setDifficulty(1)">Moyen</button>
+                            <button
+                                :class="['diff-btn', props.roomInfos.difficulty === 2 ? 'diff-btn--active' : '']"
+                                @click="setDifficulty(2)">Difficile</button>
+                        </div>
                     </div>
                     <div class="copy-link">
                         <input type="text" name="" id="" :value="fullPath" disabled>
@@ -70,6 +91,11 @@ const leaveRoom = async () => {
 
 const sliderChange = () => {
     emit('updateRoom', props.roomInfos)
+}
+
+const setDifficulty = (level) => {
+    props.roomInfos.difficulty = level;
+    emit('updateRoom', props.roomInfos);
 }
 
 const copyPath = () => {
@@ -176,6 +202,36 @@ const copyPath = () => {
     display: flex;
 }
 
+.difficulty-selector {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.difficulty-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.diff-btn {
+    padding: 0.4em 1em;
+    border: 2px solid #a78bfa;
+    background-color: transparent;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.diff-btn:hover {
+    background-color: #a78bfa44;
+}
+
+.diff-btn--active {
+    background-color: #a78bfa;
+    color: white;
+}
 
 .copy-link {
     display: flex;
@@ -189,7 +245,6 @@ const copyPath = () => {
     margin-right: 20px;
     font-size: 1rem;
     text-align: center;
-    /* hide disabled style */
     background-color: grey;
 }
 

@@ -5,13 +5,16 @@ class SocketManager {
     io = null;
 
     constructor(server) {
-        this.io = new Server(server, {
-            // cors
-            cors: {
-                origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
-                methods: ["GET", "POST"]
-            }
+        const origins = process.env.CORS_ORIGINS
+            ? process.env.CORS_ORIGINS.split(',').map(o => o.trim())
+            : ["http://localhost:5173", "http://127.0.0.1:5173"];
 
+        this.io = new Server(server, {
+            cors: {
+                origin: origins,
+                methods: ["GET", "POST"],
+                credentials: true,
+            }
         });
 
         this.setupHandlers();

@@ -62,7 +62,7 @@ const joinRoom = async () => {
         await api.joinRoom(roomCode.value, username)
         router.push({ name: 'room', params: { roomCode: roomCode.value } });
     } catch (error) {
-        errorMessage.value = "Erreur : " + error.response.data.message;
+        errorMessage.value = "Erreur : " + (error.response?.data?.message || 'Serveur injoignable, veuillez réessayer');
     }
 }
 
@@ -71,7 +71,7 @@ const leaveRoom = async () => {
         let username = store.getters.user.username;
         await api.leaveRoom(username)
     } catch (error) {
-        errorMessage.value = "Erreur : " + error.response.data.message;
+        errorMessage.value = "Erreur : " + (error.response?.data?.message || 'Serveur injoignable, veuillez réessayer');
     }
 }
 
@@ -81,7 +81,7 @@ const createRoom = async () => {
         room.value = await api.createRoom(username);
         router.push({ name: 'room', params: { roomCode: room.value.code } });
     } catch (error) {
-        errorMessage.value = "Erreur : " + error.response.data.message;
+        errorMessage.value = "Erreur : " + (error.response?.data?.message || 'Serveur injoignable, veuillez réessayer');
     }
 }
 </script>

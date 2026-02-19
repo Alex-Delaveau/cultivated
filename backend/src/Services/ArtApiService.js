@@ -1,16 +1,33 @@
 import axios from 'axios';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const fallbackArtworks = JSON.parse(readFileSync(join(__dirname, 'fallbackArtworks.json'), 'utf-8'));
+
+// In-memory cache for WikiArt API responses
+const artCache = new Map(); // key: "pageStart-pageEnd", value: { data, timestamp }
+const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
 
 class ArtApiService {
     static url = "http://www.wikiart.org/en/api/2/MostViewedPaintings";
 
     static async getArt(pageStart, pageEnd) {
+        const cacheKey = `${pageStart}-${pageEnd}`;
+        const cached = artCache.get(cacheKey);
+        if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+            return cached.data;
+        }
+
         let artData;
         let currentPaginationToken = '';
 
         for (let page = 1; page <= pageEnd; page++) {
             try {
                 const urlWithToken = `${ArtApiService.url}?paginationToken=${currentPaginationToken}`;
-                const response = await axios.get(urlWithToken);
+                const response = await axios.get(urlWithToken, { timeout: 5000 });
 
                 if (response.status === 200) {
                     const jsonData = response.data;
@@ -34,6 +51,11 @@ class ArtApiService {
                 console.error('Error fetching art:', error);
             }
         }
+
+        if (artData) {
+            artCache.set(cacheKey, { data: artData, timestamp: Date.now() });
+        }
+
         return artData;
     }
 
@@ -70,25 +92,40 @@ class ArtApiService {
             pageEnd = 9;
         }
 
-        const artList = await ArtApiService.getArt(pageStart, pageEnd);
+        let artList;
+        try {
+            artList = await ArtApiService.getArt(pageStart, pageEnd);
+        } catch (error) {
+            console.error('WikiArt API failed, using fallback artworks:', error.message);
+        }
+
+        if (!artList || !artList.data || artList.data.length === 0) {
+            console.warn('WikiArt returned no data, using fallback artworks');
+            artList = { data: fallbackArtworks };
+        }
 
         // chose 4 random arts from the list
         const chosenArtList = [];
-        while (chosenArtList.length < 4) {
+        let attempts = 0;
+        const maxAttempts = 200;
+        while (chosenArtList.length < 4 && attempts < maxAttempts) {
+            attempts++;
             const index = Math.floor(Math.random() * artList.data.length);
             const chosenArt = artList.data[index];
-    
-            // Check if the chosen art is unique in terms of title, artistName, and completionYear
-            const isUnique = !chosenArtList.some(art => 
-                art.title === chosenArt.title ||
-                art.artistName === chosenArt.artistName ||
-                art.completionYear === chosenArt.completitionYear
+
+            // Check if the chosen art is not already picked (same title AND artist)
+            const isUnique = !chosenArtList.some(art =>
+                art.title === chosenArt.title &&
+                art.artistName === chosenArt.artistName
             );
-            
 
             if (isUnique) {
                 chosenArtList.push(chosenArt);
             }
+        }
+
+        if (chosenArtList.length < 4) {
+            throw new Error(`Could not find 4 unique artworks after ${maxAttempts} attempts (found ${chosenArtList.length})`);
         }
 
         return chosenArtList;

@@ -8,6 +8,13 @@
                 <p>Artiste : <span class="strong-text">{{ chosenArtInfo.artist }}</span></p>
                 <p>Titre de l'oeuvre : <span class="strong-text">{{ chosenArtInfo.title }}</span></p>
                 <p>Date de complétion : <span class="strong-text">{{ chosenArtInfo.year }}</span></p>
+                <p v-if="chosenArtInfo.style">Style : <span class="strong-text">{{ chosenArtInfo.style }}</span></p>
+                <p v-if="chosenArtInfo.genre">Genre : <span class="strong-text">{{ chosenArtInfo.genre }}</span></p>
+                <p v-if="chosenArtInfo.wikiartUrl">
+                    <a :href="chosenArtInfo.wikiartUrl" target="_blank" rel="noopener" class="wikiart-link">
+                        Voir sur WikiArt →
+                    </a>
+                </p>
             </div>
         </div>
         <button v-if="!endGame" class="next-round" @click="startNextRound()">Next Round</button>
@@ -16,18 +23,13 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
 
-const image = ref("");
-const chosenArtInfo = ref(store.getters.chosenArtInfo);
-
-onMounted(() => {
-    image.value = store.getters.currentRoundInfos.image;
-    chosenArtInfo.value = store.getters.chosenArtInfo;
-});
+const image = computed(() => store.getters.currentRoundInfos.image);
+const chosenArtInfo = computed(() => store.getters.chosenArtInfo);
 const props = defineProps({
     endGame: Boolean,
 });
@@ -72,7 +74,7 @@ const endGamePage = () => {
     align-items: center;
 }
 
-.info { 
+.info {
     width: 50%;
     height: 100%;
 }
@@ -90,6 +92,16 @@ const endGamePage = () => {
 .img img {
     width: auto;
     border: 4px solid white;
+}
+
+.wikiart-link {
+    color: #a78bfa;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.wikiart-link:hover {
+    color: #8c68f7;
 }
 
 .next-round {

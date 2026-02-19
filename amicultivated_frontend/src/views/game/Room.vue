@@ -1,7 +1,7 @@
 <template>
     <RoomStarting v-if="isGameOpen()" :roomInfos="roomInfo" :errorMessage="errorMessage" @startGame="startGame"
         @leaveRoom="leaveRoom" @updateRoom="sendUpdateRoom" />
-    <Game v-if="isGameStarted()" :roomInfos="roomInfo" :socketManager="socketManager" @leaveGame="leaveRoom" @endGame="endGame" @roundEnd="roundEnd" />
+    <Game ref="gameRef" v-if="isGameStarted()" :roomInfos="roomInfo" :socketManager="socketManager" @leaveGame="leaveRoom" @endGame="endGame" @roundEnd="roundEnd" />
 </template>
 
 <script setup>
@@ -21,6 +21,7 @@ const roomCode = ref(route.params.roomCode);
 const store = useStore();
 const api = new API(store);
 const socketManager = RoomSocketManager.getInstance();
+const gameRef = ref(null);
 
 onMounted(async () => {
     initSocketHandlers();
@@ -35,9 +36,10 @@ const getNewRoomInfo = async () => {
     roomInfo.value = (await api.getRoomInfos(roomCode.value)).room;
     store.dispatch('saveCurrentRoomInfos', { currentRoomInfos: roomInfo.value })
 }
+
 const sendUpdateRoom = async (newInfos) => {
     try {
-        await api.updateRoom(roomCode.value, newInfos.maxPlayers, newInfos.maxRounds);
+        await api.updateRoom(roomCode.value, newInfos.maxPlayers, newInfos.maxRounds, newInfos.timerSeconds, newInfos.difficulty);
     } catch (error) {
         handleError(error);
     }
@@ -58,7 +60,7 @@ const isGameOpen = () => {
 const startGame = async () => {
     try {
         await api.startGame(roomCode.value);
-    } catch (error) {   
+    } catch (error) {
         handleError(error);
     }
 }
@@ -84,6 +86,10 @@ const leaveRoom = async () => {
 const roundEnd = async () => {
     try {
         await api.getScoresByRoom(roomCode.value);
+        // Trigger score animation in Game component
+        if (gameRef.value) {
+            gameRef.value.onScoresUpdated();
+        }
     } catch (error) {
         handleError(error);
     }
@@ -104,6 +110,7 @@ const releaseSocketHandlers = () => {
     socketManager.offUserLeft(getNewRoomInfo);
     socketManager.offRoomUpdated(getNewRoomInfo);
     socketManager.offGameStarted(getNewRoomInfo);
+    socketManager.offGameEnded(getNewRoomInfo);
 }
 
 </script>

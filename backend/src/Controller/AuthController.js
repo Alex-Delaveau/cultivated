@@ -7,16 +7,24 @@ import BaseController from "./BaseController.js";
 import UserRepository from "../Repository/UserRepository.js";
 import RoomRepository from "../Repository/RoomRepository.js";
 
+const COOKIE_OPTIONS = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'Lax',
+    maxAge: 3600 * 1000, // 1h
+};
+
 class AuthController extends BaseController{
     app = null
 
     userRepository = null;
     roomRepository = null;
-    
+
     defineRoutes() {
         return [
             new Route("/login", "post", this.login.bind(this)),
             new Route("/signup", "post", this.signup.bind(this)),
+            new Route("/logout", "post", this.logout.bind(this)),
         ];
     }
     constructor(app) {
@@ -30,22 +38,22 @@ class AuthController extends BaseController{
 
         const user = await this.userRepository.getUserByUsername(username);
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(401).json({ message: "Invalid username or password" });
         }
 
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
-            return res.status(400).json({ message: "Invalid password" });
+            return res.status(401).json({ message: "Invalid username or password" });
         }
 
         const token = jwt.sign({ id: user.id, username: user.username }, ConfigManager.instance.jwtSecret, { expiresIn: "1h" });
 
+        res.cookie('token', token, COOKIE_OPTIONS);
 
         let currentRoom = (await this.roomRepository.getRoomById(user.currentRoomId));
-
         let currentRoomInfo = currentRoom ? currentRoom : {};
 
-        return res.status(200).json({ token: token,  username: username, userId: user.id, currentRoomInfo: currentRoomInfo });
+        return res.status(200).json({ username: username, userId: user.id, currentRoomInfo: currentRoomInfo });
     }
 
     async signup(req, res) {
@@ -63,10 +71,15 @@ class AuthController extends BaseController{
 
         const token = jwt.sign({ id: newUser.id, username: newUser.username }, ConfigManager.instance.jwtSecret, { expiresIn: "1h" });
 
-        return res.status(201).json({ message: "User created successfully", token: token, username: username, userId: newUser.id, currentRoomCode: "" });
+        res.cookie('token', token, COOKIE_OPTIONS);
+
+        return res.status(201).json({ message: "User created successfully", username: username, userId: newUser.id, currentRoomCode: "" });
     }
 
-
+    async logout(req, res) {
+        res.clearCookie('token', { ...COOKIE_OPTIONS, maxAge: 0 });
+        return res.status(200).json({ message: "Logged out successfully" });
+    }
 }
 
 

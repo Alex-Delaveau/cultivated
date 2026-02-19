@@ -8,14 +8,15 @@ class AuthAPI {
 
     constructor(store) {
         this.api = axios.create({
-            baseURL: 'http://192.168.215.241:3000/',
+            baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/',
             timeout: 1000,
+            withCredentials: true, // send/receive HttpOnly cookie
         });
         this.store = store;
     }
 
     async login(username, password) {
-        try{
+        try {
             const response = await this.api.post('/login', {
                 username,
                 password,
@@ -24,14 +25,13 @@ class AuthAPI {
             if (response.status !== 200) {
                 throw new Error('Error logging in');
             }
-            
+
             const user = {
                 userId: response.data.userId,
                 username: username,
-                token: response.data.token,
-            }
+            };
 
-            this.store.dispatch('login', { user: user, roomCode: response.data.currentRoomInfo.code })
+            this.store.dispatch('login', { user: user, roomCode: response.data.currentRoomInfo.code });
         } catch (error) {
             throw error;
         }
@@ -39,7 +39,7 @@ class AuthAPI {
 
     async signup(username, password) {
         try {
-            const response =  await this.api.post('/signup', {
+            const response = await this.api.post('/signup', {
                 username,
                 password,
             });
@@ -51,16 +51,21 @@ class AuthAPI {
             const user = {
                 userId: response.data.userId,
                 username: username,
-                token: response.data.token,
-            }
+            };
 
-            this.store.dispatch('login', { user: user, currentRoomCode: response.data.roomCode })
-
+            this.store.dispatch('login', { user: user, roomCode: response.data.currentRoomCode });
         } catch (error) {
             throw error;
         }
     }
-    
+
+    async logout() {
+        try {
+            await this.api.post('/logout');
+        } catch (e) {
+            // ignore — cookie will expire on its own
+        }
+    }
 }
 
 export default AuthAPI;

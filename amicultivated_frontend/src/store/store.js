@@ -4,10 +4,22 @@ import AuthAPI from '../api/auth_api.js';
 
 const authApi = new AuthAPI();
 
+function safeParse(key, fallback) {
+    try {
+        const item = localStorage.getItem(key);
+        if (item) return JSON.parse(item);
+    } catch (e) {
+        localStorage.removeItem(key);
+    }
+    return fallback;
+}
+
+const savedUser = safeParse('user', null);
+
 export const store = new createStore({
     state: {
-        loggedIn: (localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).username !== null && JSON.parse(localStorage.getItem('user')).token !== null),
-        currentRoundInfos: JSON.parse(localStorage.getItem('currentRoundInfos')) || {
+        loggedIn: !!(savedUser && savedUser.username),
+        currentRoundInfos: safeParse('currentRoundInfos', {
             imageUrl: '',
             answers: [],
             roundStatus: '',
@@ -15,13 +27,14 @@ export const store = new createStore({
             roundNumber: 0,
             questionType: '',
             hasAnswered: false,
-        },
-        user: JSON.parse(localStorage.getItem('user')) || {
+            timerSeconds: 30,
+            correctAnswerId: '',
+        }),
+        user: savedUser || {
             userId: '',
             username: '',
-            token: '',
         },
-        currentRoomInfos: JSON.parse(localStorage.getItem('currentRoomInfos')) || {
+        currentRoomInfos: safeParse('currentRoomInfos', {
             id: '',
             code: '',
             maxPlayers: 0,
@@ -30,21 +43,25 @@ export const store = new createStore({
             currentRoundNumber: 0,
             currentRoundStatus: '',
             currentRoundResults: {},
-        },
-        chosenArtInfo: JSON.parse(localStorage.getItem('chosenArtInfo')) || {
+            timerSeconds: 30,
+            difficulty: 0,
+        }),
+        chosenArtInfo: safeParse('chosenArtInfo', {
             artist: '',
             title: '',
             year: '',
-        },
+            style: '',
+            genre: '',
+            wikiartUrl: '',
+        }),
     },
     mutations: {
-        login(state, { username, token, userId, currentRoomCode }) {
+        login(state, { username, userId, currentRoomCode }) {
             state.loggedIn = true;
             state.currentRoomInfos.code = currentRoomCode;
             state.user = {
                 userId: userId,
                 username: username,
-                token: token,
             };
         },
         logout(state) {
@@ -53,7 +70,6 @@ export const store = new createStore({
             state.user = {
                 userId: '',
                 username: '',
-                token: '',
             };
         },
         saveCurrentRoundInfos(state, currentRoundInfos) {
@@ -68,6 +84,8 @@ export const store = new createStore({
                 roundNumber: 0,
                 questionType: '',
                 hasAnswered: false,
+                timerSeconds: 30,
+                correctAnswerId: '',
             };
         },
         saveCurrentRoomInfos(state, currentRoomInfos) {
@@ -83,6 +101,8 @@ export const store = new createStore({
                 currentRoundNumber: 0,
                 currentRoundStatus: '',
                 currentRoundResults: {},
+                timerSeconds: 30,
+                difficulty: 0,
             };
         },
         changeRoomStatus(state, status) {
@@ -96,15 +116,19 @@ export const store = new createStore({
                 artist: '',
                 title: '',
                 year: '',
+                style: '',
+                genre: '',
+                wikiartUrl: '',
             };
         }
     },
     actions: {
         login: ({ commit }, { user, roomCode }) => {
-            localStorage.setItem('user', JSON.stringify(user));
+            // Only save non-sensitive info — token is in HttpOnly cookie
+            localStorage.setItem('user', JSON.stringify({ userId: user.userId, username: user.username }));
             const roomData = { code: roomCode }
             localStorage.setItem('currentRoomInfos', JSON.stringify(roomData));
-            commit('login', { username: user.username, token: user.token, userId: user.userId, currentRoomCode: roomCode });
+            commit('login', { username: user.username, userId: user.userId, currentRoomCode: roomCode });
         },
         logout: ({ commit }) => {
             localStorage.removeItem('user');
@@ -154,4 +178,5 @@ export const store = new createStore({
     },
 
 });
+
 

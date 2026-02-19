@@ -15,7 +15,9 @@ class RoomRepository {
             maxPlayers: maxPlayers,
             maxRounds: maxRounds,
             status: status,
-            adminId: adminId
+            adminId: adminId,
+            timerSeconds: 30,
+            difficulty: 0
         });
     }
 
@@ -31,6 +33,9 @@ class RoomRepository {
             maxRounds: room.maxRounds,
             status: room.status,
             code: room.code,
+            adminId: room.adminId,
+            timerSeconds: room.timerSeconds ?? 30,
+            difficulty: room.difficulty ?? 0,
             players: {}
         }
         roomData.players = (await this.userRepository.getUsersByRoomId(roomData.id)).map(user => {
@@ -48,13 +53,11 @@ class RoomRepository {
     }
 
     async incrementCurrentPlayerNumber(roomCode) {
-        let room = await this.getRoomByCode(roomCode);
-        return await this.model.update({ currentPlayerNumber: room.currentPlayerNumber + 1 }, { where: { code: roomCode } });
+        return await this.model.increment('currentPlayerNumber', { by: 1, where: { code: roomCode } });
     }
 
     async decrementCurrentPlayerNumber(roomCode) {
-        let room = await this.getRoomByCode(roomCode);
-        return await this.model.update({ currentPlayerNumber: room.currentPlayerNumber - 1 }, { where: { code: roomCode } });
+        return await this.model.decrement('currentPlayerNumber', { by: 1, where: { code: roomCode } });
     }
 
     async isRoomFull(roomCode) {
@@ -76,8 +79,13 @@ class RoomRepository {
         return !(await this.isRoomFull(roomCode)) && !(await this.isRoomClosed(roomCode));
     }
 
-    async updateSettings(roomCode, maxPlayers, maxRounds) {
-        return await this.model.update({ maxPlayers: maxPlayers, maxRounds: maxRounds }, { where: { code: roomCode } });
+    async updateSettings(roomCode, maxPlayers, maxRounds, timerSeconds, difficulty) {
+        const updates = {};
+        if (maxPlayers !== undefined) updates.maxPlayers = maxPlayers;
+        if (maxRounds !== undefined) updates.maxRounds = maxRounds;
+        if (timerSeconds !== undefined) updates.timerSeconds = timerSeconds;
+        if (difficulty !== undefined) updates.difficulty = difficulty;
+        return await this.model.update(updates, { where: { code: roomCode } });
     }
 
     async deleteRoom(roomId) {

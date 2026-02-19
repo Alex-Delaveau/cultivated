@@ -1,6 +1,8 @@
 import express from "express";
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+
 class API {
 
     app = null
@@ -15,7 +17,17 @@ class API {
 
         this.port = port
         this.app = express()
-        this.app.use(cors())
+
+        const corsOrigins = process.env.CORS_ORIGINS
+            ? process.env.CORS_ORIGINS.split(',').map(o => o.trim())
+            : ['http://localhost:5173'];
+
+        this.app.use(cors({
+            origin: corsOrigins,
+            credentials: true,
+        }))
+
+        this.app.use(cookieParser())
         this.app.use(bodyParser.json())
         this.server = this.app.listen(this.port)
 

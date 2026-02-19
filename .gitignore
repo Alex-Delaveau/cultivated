@@ -1,3 +1,7 @@
+# Environment & deployment secrets
+.env
+data/
+
 # General
 .DS_Store
 Thumbs.db

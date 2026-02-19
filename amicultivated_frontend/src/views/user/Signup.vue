@@ -47,7 +47,7 @@ const signup = () => {
             router.push({ name: 'home' });
         })
         .catch((error) => {
-            errorMessage.value = error.response.data.message;
+            errorMessage.value = error.response?.data?.message || 'Serveur injoignable, veuillez réessayer';
         })
 };
 

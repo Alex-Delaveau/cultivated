@@ -6,7 +6,9 @@ class RoomSocketManager {
     socket = null;
 
     constructor() {
-        this.socket = io('http://192.168.215.241:3000/room');
+        this.socket = io((import.meta.env.VITE_SOCKET_URL || 'http://localhost:3000') + '/room', {
+            withCredentials: true,
+        });
     }
 
     static getInstance() {
@@ -39,7 +41,6 @@ class RoomSocketManager {
     startGame(roomCode) {
         this.socket.emit('startGame', {
             roomCode: roomCode,
-            difficulty: 0,
             artId: ""
         });
     }
@@ -61,9 +62,13 @@ class RoomSocketManager {
     startNextRound(roomCode) {
         this.socket.emit('nextRound', {
             roomCode: roomCode,
-            difficulty: 0,
             artId: ""
         });
+    }
+
+    // Feature 9: Hint system
+    requestHint(roomCode) {
+        this.socket.emit('requestHint', { roomCode });
     }
 
     onUserJoined(callback) {
@@ -98,6 +103,10 @@ class RoomSocketManager {
         this.socket.on('gameEnded', callback);
     }
 
+    onHintGranted(callback) {
+        this.socket.on('hintGranted', callback);
+    }
+
     offUserJoined(callback) {
         this.socket.off('userJoined', callback);
     }
@@ -128,6 +137,10 @@ class RoomSocketManager {
 
     offRoundLoading(callback){
         this.socket.off('roundLoading', callback);
+    }
+
+    offHintGranted(callback) {
+        this.socket.off('hintGranted', callback);
     }
 }
 

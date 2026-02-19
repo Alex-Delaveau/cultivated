@@ -20,7 +20,7 @@ class RoomSocketHandler {
 
     setupRoomNamespace() {
         const roomNamespace = this.io.of("/room");
-        roomNamespace.on("connection", (socket) => {    
+        roomNamespace.on("connection", (socket) => {
             socket.on("joinRoom", ({ roomCode, user }) => {
                 socket.join(roomCode);
                 roomNamespace.to(roomCode).emit('userJoined', { user: user.username, room: roomCode });
@@ -29,11 +29,10 @@ class RoomSocketHandler {
                     this.roundManagers[roomCode] = new RoundSocketManager(roomNamespace, roomCode);
                 }
                 // attach room event listeners
-                this.attachRoomEventListeners(socket, user); 
+                this.attachRoomEventListeners(socket, user);
 
                 socket.on("disconnect", () => {
                     Logger.info(`User ${user.username} has disconnected from the room: ${roomCode}`);
-
                     this.handleLeaveRoom(socket, roomCode, user);
                 });
             });
@@ -47,32 +46,53 @@ class RoomSocketHandler {
 
     attachRoomEventListeners(socket, user) {
         const roomNamespace = this.io.of("/room");
+
         socket.on("updateRoom", async ({ roomCode }) => {
-            Logger.info(`User ${user.username} has changed the settings of the the room: ${roomCode}`);
+            Logger.info(`User ${user.username} has changed the settings of the room: ${roomCode}`);
             roomNamespace.to(roomCode).emit('updateRoom', { room: roomCode });
         });
 
-        socket.on("startGame", async ({ roomCode, difficulty, artId }) => {
+        socket.on("startGame", async ({ roomCode, artId }) => {
             Logger.info(`User ${user.username} started the game for room: ${roomCode}`);
             const roundSocketManager = this.roundManagers[roomCode];
             roomNamespace.to(roomCode).emit('gameStarting', { room: roomCode });
             if (roundSocketManager) {
-                roundSocketManager.startRound(difficulty, artId);
+                // Fetch difficulty and timerSeconds from DB (ignore client-provided values)
+                try {
+                    const room = await this.roomRepository.getRoomByCode(roomCode);
+                    const difficulty = room ? room.difficulty : 0;
+                    const timerSeconds = room ? room.timerSeconds : 30;
+                    roundSocketManager.startRound(difficulty, artId || "", timerSeconds);
+                } catch (e) {
+                    Logger.error(`Failed to fetch room settings for ${roomCode}: ${e.message}`);
+                    roundSocketManager.startRound(0, artId || "", 30);
+                }
             }
         });
 
-        socket.on("nextRound", async ({ roomCode, difficulty, artId }) => {
+        socket.on("nextRound", async ({ roomCode, artId }) => {
             Logger.info(`User ${user.username} started a new round for room: ${roomCode}`);
             const roundSocketManager = this.roundManagers[roomCode];
             if (roundSocketManager) {
-                roundSocketManager.startRound(difficulty, artId);
+                // Fetch difficulty and timerSeconds from DB
+                try {
+                    const room = await this.roomRepository.getRoomByCode(roomCode);
+                    const difficulty = room ? room.difficulty : 0;
+                    const timerSeconds = room ? room.timerSeconds : 30;
+                    roundSocketManager.startRound(difficulty, artId || "", timerSeconds);
+                } catch (e) {
+                    Logger.error(`Failed to fetch room settings for ${roomCode}: ${e.message}`);
+                    roundSocketManager.startRound(0, artId || "", 30);
+                }
             }
         });
 
         socket.on("submitAnswer", async ({ roomCode, user, answerId }) => {
             Logger.info(`User ${user.username} answered in room: ${roomCode} with answer: ${answerId}`);
             const roundSocketManager = this.roundManagers[roomCode];
-            roundSocketManager.handlePlayerResponse(user, answerId);
+            if (roundSocketManager) {
+                roundSocketManager.handlePlayerResponse(user, answerId);
+            }
         });
 
         socket.on("endGame", async ({ roomCode }) => {
@@ -80,6 +100,15 @@ class RoomSocketHandler {
             const roundSocketManager = this.roundManagers[roomCode];
             if (roundSocketManager) {
                 roundSocketManager.endGame();
+            }
+        });
+
+        // Feature 9: Hint system
+        socket.on("requestHint", async ({ roomCode }) => {
+            Logger.info(`User ${user.username} requested a hint in room: ${roomCode}`);
+            const roundSocketManager = this.roundManagers[roomCode];
+            if (roundSocketManager) {
+                roundSocketManager.handleHintRequest(user.userId, socket);
             }
         });
     }
@@ -101,6 +130,7 @@ class RoomSocketHandler {
         socket.removeAllListeners("nextRound");
         socket.removeAllListeners("submitAnswer");
         socket.removeAllListeners("endGame");
+        socket.removeAllListeners("requestHint");
     }
 
 }
