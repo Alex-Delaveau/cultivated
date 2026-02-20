@@ -1,9 +1,10 @@
 /**
  * Standalone Wikidata SPARQL test script
  * Usage:
- *   node backend/testWikidata.js                  → theme "global", limit 800
- *   node backend/testWikidata.js classic           → specific theme
- *   node backend/testWikidata.js global 20         → smaller limit (faster)
+ *   node backend/testWikidata.js                        → theme "global", limit 100
+ *   node backend/testWikidata.js classic                → specific theme
+ *   node backend/testWikidata.js global 20              → smaller limit (faster)
+ *   node backend/testWikidata.js global 800 --export    → fetch + overwrite fallbackArtworks.json
  *
  * The query is also written to /tmp/wikidata-query-<theme>.sparql so you can
  * test it manually with curl (no shell-escaping issues):
@@ -14,8 +15,12 @@
 
 import axios from 'axios';
 import { writeFileSync } from 'fs';
-import { join } from 'path';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import { tmpdir } from 'os';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const SPARQL_ENDPOINT = 'https://query.wikidata.org/sparql';
 
@@ -58,8 +63,10 @@ function completeness(art) {
 }
 
 async function run() {
-    const theme = process.argv[2] ?? 'global';
-    const limit = parseInt(process.argv[3] ?? '800');
+    const exportMode = process.argv.includes('--export');
+    const args = process.argv.slice(2).filter(a => a !== '--export');
+    const theme = args[0] ?? 'global';
+    const limit = parseInt(args[1] ?? '100');
 
     if (!THEME_EXTRAS[theme]) {
         console.error(`Unknown theme "${theme}". Available: ${Object.keys(THEME_EXTRAS).join(', ')}`);
@@ -147,8 +154,20 @@ async function run() {
         if (artworks.length < 4) {
             console.warn('\n⚠ Not enough artworks for a round (need 4)!');
             process.exit(1);
-        } else {
-            console.log('\n✓ Query OK — enough artworks for all difficulty tiers.');
+        }
+
+        console.log('\n✓ Query OK — enough artworks for all difficulty tiers.');
+
+        if (exportMode) {
+            // Add sourceUrl for each artwork before exporting
+            const exportData = artworks.map(a => ({
+                ...a,
+                sourceUrl: `https://www.wikidata.org/wiki/${a.id}`,
+            }));
+            const outPath = join(__dirname, 'src/Services/fallbackArtworks.json');
+            writeFileSync(outPath, JSON.stringify(exportData, null, 2), 'utf-8');
+            console.log(`\n✓ Exported ${exportData.length} artworks → ${outPath}`);
+            console.log('  Commit and push this file to update the VPS fallback dataset.');
         }
 
     } catch (error) {

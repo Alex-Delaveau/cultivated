@@ -11,15 +11,15 @@ import RoomController from "./src/Controller/RoomController.js";
 import ProfileController from "./src/Controller/ProfileController.js";
 
 import SocketManager from "./src/sockets/SocketManager.js";
-import ArtApiService from "./src/Services/ArtApiService.js";
+import ArtworkSyncService from "./src/Services/ArtworkSyncService.js";
 
 const init = async () => {
     //DB Instanciation
     await DatabaseFactory.createDb()
-        .then(() => {
+        .then(async () => {
             Logger.success("Database Started");
-            Models.initModels();
-            
+            await Models.initModels();
+
         })
         .catch((e) => {
             Logger.error("Database Failed to start");
@@ -39,11 +39,11 @@ const init = async () => {
 
     let socketManager = new SocketManager(API.instance.server);
 
-    // Pre-warm the art provider cache in the background so the first player
-    // never has to wait for the SPARQL query (cached for 12 hours after this).
-    ArtApiService.selectArtworkForRound(0, null, 'global')
-        .then(() => Logger.success("Art provider cache warmed up (theme: global)"))
-        .catch(e  => Logger.warning("Art provider warmup failed: " + e.message));
+    // Sync artworks from Wikidata into SQLite in the background.
+    // Already-populated themes are skipped; first boot fills the DB (~75s total).
+    new ArtworkSyncService().syncAll()
+        .then(() => Logger.success('Artwork DB sync complete'))
+        .catch(e  => Logger.warning('Artwork DB sync failed: ' + e.message));
 }
 
 const initController = (app) => {

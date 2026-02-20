@@ -167,7 +167,7 @@ WHERE {
   ${clause}
   SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en". }
 }
-LIMIT 800
+LIMIT 100
 `;
     }
 

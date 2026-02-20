@@ -2,11 +2,12 @@ import Logger from "../Logger/Logger.js";
 import UserModel from "./UserModel.js";
 import RoomModel from "./RoomModel.js";
 import GameHistoryModel from "./GameHistoryModel.js";
+import ArtworkModel from "./ArtworkModel.js";
 
 class Models {
 
     static get allModels() {
-        return [UserModel.getInstance(), RoomModel.getInstance(), GameHistoryModel.getInstance()];
+        return [UserModel.getInstance(), RoomModel.getInstance(), GameHistoryModel.getInstance(), ArtworkModel.getInstance()];
     }
 
     static initModels() {
