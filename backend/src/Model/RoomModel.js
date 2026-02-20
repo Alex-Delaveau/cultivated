@@ -40,6 +40,11 @@ class RoomModel extends BaseModel{
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 defaultValue: 0
+            },
+            theme: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: 'global'
             }
         })
         RoomModel.instance = this;

@@ -31,7 +31,7 @@
                         >
                             <span v-if="currentRoundInfos.questionType == 'title'">{{ artAnswer.title }}</span>
                             <span v-if="currentRoundInfos.questionType == 'artist'">{{ artAnswer.artistName }}</span>
-                            <span v-if="currentRoundInfos.questionType == 'year'">{{ artAnswer.completitionYear }}</span>
+                            <span v-if="currentRoundInfos.questionType == 'year'">{{ artAnswer.year }}</span>
                         </button>
                     </div>
                 </template>
@@ -234,7 +234,13 @@ watch(() => currentRoundInfos.value.hasAnswered, (answered) => {
 }
 
 .img img {
+    display: block;
     width: auto;
+    max-width: 100%;
+    /* 430px ≈ header + title + timer + answer grid + hint button + margins */
+    max-height: calc(100dvh - 430px);
+    min-height: 80px;
+    object-fit: contain;
     margin: auto;
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: var(--shadow-card);

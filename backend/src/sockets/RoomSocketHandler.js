@@ -62,7 +62,8 @@ class RoomSocketHandler {
                     const room = await this.roomRepository.getRoomByCode(roomCode);
                     const difficulty = room ? room.difficulty : 0;
                     const timerSeconds = room ? room.timerSeconds : 30;
-                    roundSocketManager.startRound(difficulty, artId || "", timerSeconds);
+                    const theme = room ? (room.theme ?? 'global') : 'global';
+                    roundSocketManager.startRound(difficulty, artId || "", timerSeconds, theme);
                 } catch (e) {
                     Logger.error(`Failed to fetch room settings for ${roomCode}: ${e.message}`);
                     roundSocketManager.startRound(0, artId || "", 30);
@@ -79,7 +80,8 @@ class RoomSocketHandler {
                     const room = await this.roomRepository.getRoomByCode(roomCode);
                     const difficulty = room ? room.difficulty : 0;
                     const timerSeconds = room ? room.timerSeconds : 30;
-                    roundSocketManager.startRound(difficulty, artId || "", timerSeconds);
+                    const theme = room ? (room.theme ?? 'global') : 'global';
+                    roundSocketManager.startRound(difficulty, artId || "", timerSeconds, theme);
                 } catch (e) {
                     Logger.error(`Failed to fetch room settings for ${roomCode}: ${e.message}`);
                     roundSocketManager.startRound(0, artId || "", 30);

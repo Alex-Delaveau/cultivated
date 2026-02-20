@@ -17,7 +17,8 @@ class RoomRepository {
             status: status,
             adminId: adminId,
             timerSeconds: 30,
-            difficulty: 0
+            difficulty: 0,
+            theme: 'global'
         });
     }
 
@@ -36,6 +37,7 @@ class RoomRepository {
             adminId: room.adminId,
             timerSeconds: room.timerSeconds ?? 30,
             difficulty: room.difficulty ?? 0,
+            theme: room.theme ?? 'global',
             players: {}
         }
         roomData.players = (await this.userRepository.getUsersByRoomId(roomData.id)).map(user => {
@@ -79,12 +81,13 @@ class RoomRepository {
         return !(await this.isRoomFull(roomCode)) && !(await this.isRoomClosed(roomCode));
     }
 
-    async updateSettings(roomCode, maxPlayers, maxRounds, timerSeconds, difficulty) {
+    async updateSettings(roomCode, maxPlayers, maxRounds, timerSeconds, difficulty, theme) {
         const updates = {};
         if (maxPlayers !== undefined) updates.maxPlayers = maxPlayers;
         if (maxRounds !== undefined) updates.maxRounds = maxRounds;
         if (timerSeconds !== undefined) updates.timerSeconds = timerSeconds;
         if (difficulty !== undefined) updates.difficulty = difficulty;
+        if (theme !== undefined) updates.theme = theme;
         return await this.model.update(updates, { where: { code: roomCode } });
     }
 

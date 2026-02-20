@@ -166,7 +166,7 @@ class RoomController extends BaseController{
 
     async updateRoom(req, res){
         const {roomCode} = req.params;
-        const {maxPlayers, maxRounds, timerSeconds, difficulty} = req.body;
+        const {maxPlayers, maxRounds, timerSeconds, difficulty, theme} = req.body;
 
         if (!roomCode) {
             return res.status(400).json({ message: "Missing required fields" });
@@ -182,7 +182,7 @@ class RoomController extends BaseController{
             return res.status(403).json({ message: "Only the room admin can update settings" });
         }
 
-        await this.roomRepository.updateSettings(roomCode, maxPlayers, maxRounds, timerSeconds, difficulty);
+        await this.roomRepository.updateSettings(roomCode, maxPlayers, maxRounds, timerSeconds, difficulty, theme);
         res.status(200).json({ message: "Room updated successfully"});
     }
 

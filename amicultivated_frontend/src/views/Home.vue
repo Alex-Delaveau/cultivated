@@ -123,7 +123,7 @@ const createRoom = async () => {
 /* ── Home card ─────────────────────────────────────────── */
 .home-card {
   display: flex;
-  max-width: 780px;
+  max-width: 1220px;
   margin: 0 auto;
   padding: 0;
   overflow: hidden;

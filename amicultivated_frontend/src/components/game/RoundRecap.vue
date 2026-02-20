@@ -9,10 +9,11 @@
                 <p>Titre de l'oeuvre : <span class="strong-text">{{ chosenArtInfo.title }}</span></p>
                 <p>Date de complétion : <span class="strong-text">{{ chosenArtInfo.year }}</span></p>
                 <p v-if="chosenArtInfo.style">Style : <span class="strong-text">{{ chosenArtInfo.style }}</span></p>
-                <p v-if="chosenArtInfo.genre">Genre : <span class="strong-text">{{ chosenArtInfo.genre }}</span></p>
-                <p v-if="chosenArtInfo.wikiartUrl">
-                    <a :href="chosenArtInfo.wikiartUrl" target="_blank" rel="noopener" class="wikiart-link">
-                        Voir sur WikiArt →
+                <p v-if="chosenArtInfo.movement">Mouvement : <span class="strong-text">{{ chosenArtInfo.movement }}</span></p>
+                <p v-if="chosenArtInfo.museum">Musée : <span class="strong-text">{{ chosenArtInfo.museum }}</span></p>
+                <p v-if="chosenArtInfo.sourceUrl">
+                    <a :href="chosenArtInfo.sourceUrl" target="_blank" rel="noopener" class="wikiart-link">
+                        En savoir plus →
                     </a>
                 </p>
             </div>
@@ -92,7 +93,12 @@ const endGamePage = () => {
 }
 
 .img img {
+    display: block;
     width: auto;
+    max-width: 100%;
+    max-height: calc(100dvh - 280px);
+    min-height: 80px;
+    object-fit: contain;
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: var(--shadow-card);
     border-radius: var(--radius-card);

@@ -125,8 +125,26 @@
                 : { borderColor: level.color + '80', color: level.color }"
               @click="setDifficulty(level.value)"
             >
-              <span class="diff-btn__icon">{{ level.icon }}</span>
               {{ level.label }}
+            </button>
+          </div>
+        </section>
+
+        <!-- Section : Thème -->
+        <section class="card-section">
+          <h2 class="section-title settings-section__title">Thème</h2>
+          <div class="difficulty-buttons">
+            <button
+              v-for="t in themes"
+              :key="t.value"
+              class="diff-btn"
+              :class="{ 'diff-btn--active': (props.roomInfos.theme ?? 'global') === t.value }"
+              :style="(props.roomInfos.theme ?? 'global') === t.value
+                ? { backgroundColor: t.color, borderColor: t.color }
+                : { borderColor: t.color + '80', color: t.color }"
+              @click="setTheme(t.value)"
+            >
+              {{ t.label }}
             </button>
           </div>
         </section>
@@ -137,7 +155,7 @@
           <div class="invite-row">
             <input class="input-field invite-input" type="text" :value="fullPath" readonly />
             <button class="btn btn-outline btn-sm copy-btn" @click="copyPath()">
-              {{ copied ? '✓ Copié !' : 'Copier' }}
+              {{ copied ? 'Copié !' : 'Copier' }}
             </button>
           </div>
         </section>
@@ -145,10 +163,10 @@
         <!-- Actions -->
         <div class="actions">
           <button class="btn btn-primary btn-lg launch-btn" @click="startGame()">
-            ▶ Lancer la partie
+            Lancer la partie
           </button>
           <button class="btn btn-danger" @click="confirmLeave()">
-            ← Quitter la room
+            Quitter la room
           </button>
         </div>
 
@@ -190,21 +208,29 @@ const props = defineProps({
 const emit = defineEmits(['startGame', 'leaveRoom', 'updateRoom']);
 
 const difficultyLevels = [
-  { value: 0, label: 'Facile',   icon: '🟢', color: '#22c55e' },
-  { value: 1, label: 'Moyen',    icon: '🟡', color: '#fbbf24' },
-  { value: 2, label: 'Difficile', icon: '🔴', color: '#ef4444' },
+  { value: 0, label: 'Facile', color: '#22c55e' },
+  { value: 1, label: 'Moyen', color: '#fbbf24' },
+  { value: 2, label: 'Difficile', color: '#ef4444' },
+];
+
+const themes = [
+  { value: 'global', label: 'Général', color: '#a78bfa' }, 
+  { value: 'classic', label: 'Classique', color: '#d97706' }, 
+  { value: 'modern', label: 'Moderne', color: '#0891b2' }, 
+  { value: 'japanese', label: 'Japonais', color: '#dc2626' },
+  { value: 'impressionist', label: 'Impressionnisme', color: '#059669' },
 ];
 
 const emptySlots = computed(() => {
   const max = props.roomInfos?.maxPlayers ?? 0;
   const current = props.roomInfos?.players?.length ?? 0;
   const empty = max - current;
-  return empty > 0 ? Math.min(empty, 4) : 0;
+  return empty > 0 ? Math.min(empty, 11) : 0;
 });
 
 const AVATAR_COLORS = [
-  '#7c3aed', '#2563eb', '#0891b2', '#059669',
-  '#d97706', '#dc2626', '#db2777', '#7e22ce',
+  '#7c3aed', '#2563eb', '#0891b2', '#059669', '#396859',
+  '#d97706', '#dc2626', '#db2777', '#7e22ce', '#c9cc24',
 ];
 
 function avatarColor(username) {
@@ -219,6 +245,11 @@ const sliderChange = () => emit('updateRoom', props.roomInfos);
 
 const setDifficulty = (level) => {
   props.roomInfos.difficulty = level;
+  emit('updateRoom', props.roomInfos);
+};
+
+const setTheme = (value) => {
+  props.roomInfos.theme = value;
   emit('updateRoom', props.roomInfos);
 };
 

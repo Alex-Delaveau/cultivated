@@ -45,7 +45,7 @@ class RoundSocketManager {
         this.gameHistoryRepository = new GameHistoryRepository();
     }
 
-    async startRound(difficulty, artId, timerSeconds = 30) {
+    async startRound(difficulty, artId, timerSeconds = 30, theme = 'global') {
         if (this.isRoundStarted) {
             Logger.warning("Round already started");
             return;
@@ -69,11 +69,11 @@ class RoundSocketManager {
 
         // Select a list of artworks
         try {
-            this.chosenArtList = await ArtApiService.selectArtworkForRound(difficulty, artId);
+            this.chosenArtList = await ArtApiService.selectArtworkForRound(difficulty, artId, theme);
         } catch (error) {
             Logger.error(`Failed to fetch artworks for room ${this.roomCode}: ${error.message}`);
             this.isRoundStarted = false;
-            this.roomNamespace.to(this.roomCode).emit('roundError', { message: "Could not load artworks. WikiArt may be unavailable. Please try again." });
+            this.roomNamespace.to(this.roomCode).emit('roundError', { message: "Could not load artworks. Art data unavailable. Please try again." });
             return;
         }
 
@@ -260,14 +260,13 @@ class RoundSocketManager {
             if (this.chosenArtList && this.chosenArtList.length > 0) {
                 const art = this.chosenArtList[0];
                 answerData = {
-                    artist: art.artistName,
-                    title: art.title,
-                    year: art.completitionYear,
-                    style: art.style || null,
-                    genre: art.genre || null,
-                    wikiartUrl: (art.artistUrl && art.url)
-                        ? `https://www.wikiart.org/en/${art.artistUrl}/${art.url}`
-                        : null,
+                    artist:    art.artistName,
+                    title:     art.title,
+                    year:      art.year,
+                    style:     art.style    ?? null,
+                    movement:  art.movement ?? null,
+                    museum:    art.museum   ?? null,
+                    sourceUrl: art.sourceUrl ?? null,
                 };
             }
         } catch (e) {

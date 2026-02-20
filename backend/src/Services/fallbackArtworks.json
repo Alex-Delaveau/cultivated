@@ -3,400 +3,400 @@
     "id": "fallback-1",
     "title": "Starry Night",
     "artistName": "Vincent van Gogh",
-    "completionYear": 1889,
-    "completitionYear": 1889,
-    "image": "https://uploads0.wikiart.org/00339/images/vincent-van-gogh/the-starry-night.jpg"
+    "year": 1889,
+    "imageUrl": "https://uploads0.wikiart.org/00339/images/vincent-van-gogh/the-starry-night.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-2",
     "title": "The Persistence of Memory",
     "artistName": "Salvador Dali",
-    "completionYear": 1931,
-    "completitionYear": 1931,
-    "image": "https://uploads0.wikiart.org/images/salvador-dali/the-persistence-of-memory-1931.jpg"
+    "year": 1931,
+    "imageUrl": "https://uploads0.wikiart.org/images/salvador-dali/the-persistence-of-memory-1931.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-3",
     "title": "Girl with a Pearl Earring",
     "artistName": "Johannes Vermeer",
-    "completionYear": 1665,
-    "completitionYear": 1665,
-    "image": "https://uploads0.wikiart.org/images/johannes-vermeer/girl-with-a-pearl-earring.jpg"
+    "year": 1665,
+    "imageUrl": "https://uploads0.wikiart.org/images/johannes-vermeer/girl-with-a-pearl-earring.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-4",
     "title": "The Great Wave off Kanagawa",
     "artistName": "Katsushika Hokusai",
-    "completionYear": 1831,
-    "completitionYear": 1831,
-    "image": "https://uploads0.wikiart.org/images/katsushika-hokusai/the-great-wave-off-kanagawa-1831.jpg"
+    "year": 1831,
+    "imageUrl": "https://uploads0.wikiart.org/images/katsushika-hokusai/the-great-wave-off-kanagawa-1831.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-5",
     "title": "The Birth of Venus",
     "artistName": "Sandro Botticelli",
-    "completionYear": 1485,
-    "completitionYear": 1485,
-    "image": "https://uploads0.wikiart.org/images/sandro-botticelli/the-birth-of-venus-1485(1).jpg"
+    "year": 1485,
+    "imageUrl": "https://uploads0.wikiart.org/images/sandro-botticelli/the-birth-of-venus-1485(1).jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-6",
     "title": "A Sunday Afternoon on the Island of La Grande Jatte",
     "artistName": "Georges Seurat",
-    "completionYear": 1886,
-    "completitionYear": 1886,
-    "image": "https://uploads0.wikiart.org/images/georges-seurat/a-sunday-on-la-grande-jatte-1886.jpg"
+    "year": 1886,
+    "imageUrl": "https://uploads0.wikiart.org/images/georges-seurat/a-sunday-on-la-grande-jatte-1886.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-7",
     "title": "The Kiss",
     "artistName": "Gustav Klimt",
-    "completionYear": 1908,
-    "completitionYear": 1908,
-    "image": "https://uploads0.wikiart.org/images/gustav-klimt/the-kiss-1908.jpg"
+    "year": 1908,
+    "imageUrl": "https://uploads0.wikiart.org/images/gustav-klimt/the-kiss-1908.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-8",
     "title": "Water Lilies",
     "artistName": "Claude Monet",
-    "completionYear": 1906,
-    "completitionYear": 1906,
-    "image": "https://uploads0.wikiart.org/images/claude-monet/water-lilies-1906.jpg"
+    "year": 1906,
+    "imageUrl": "https://uploads0.wikiart.org/images/claude-monet/water-lilies-1906.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-9",
     "title": "The Night Watch",
     "artistName": "Rembrandt",
-    "completionYear": 1642,
-    "completitionYear": 1642,
-    "image": "https://uploads0.wikiart.org/00129/images/rembrandt/the-nightwatch.jpg"
+    "year": 1642,
+    "imageUrl": "https://uploads0.wikiart.org/00129/images/rembrandt/the-nightwatch.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-10",
     "title": "Guernica",
     "artistName": "Pablo Picasso",
-    "completionYear": 1937,
-    "completitionYear": 1937,
-    "image": "https://uploads0.wikiart.org/images/pablo-picasso/guernica-1937.jpg"
+    "year": 1937,
+    "imageUrl": "https://uploads0.wikiart.org/images/pablo-picasso/guernica-1937.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-11",
     "title": "The Scream",
     "artistName": "Edvard Munch",
-    "completionYear": 1893,
-    "completitionYear": 1893,
-    "image": "https://uploads0.wikiart.org/images/edvard-munch/the-scream-1893.jpg"
+    "year": 1893,
+    "imageUrl": "https://uploads0.wikiart.org/images/edvard-munch/the-scream-1893.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-12",
     "title": "American Gothic",
     "artistName": "Grant Wood",
-    "completionYear": 1930,
-    "completitionYear": 1930,
-    "image": "https://uploads0.wikiart.org/images/grant-wood/american-gothic-1930.jpg"
+    "year": 1930,
+    "imageUrl": "https://uploads0.wikiart.org/images/grant-wood/american-gothic-1930.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-13",
     "title": "Whistler's Mother",
     "artistName": "James McNeill Whistler",
-    "completionYear": 1871,
-    "completitionYear": 1871,
-    "image": "https://uploads0.wikiart.org/images/james-mcneill-whistler/arrangement-in-grey-and-black-portrait-of-the-artist-s-mother-1871.jpg"
+    "year": 1871,
+    "imageUrl": "https://uploads0.wikiart.org/images/james-mcneill-whistler/arrangement-in-grey-and-black-portrait-of-the-artist-s-mother-1871.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-14",
     "title": "Liberty Leading the People",
     "artistName": "Eugene Delacroix",
-    "completionYear": 1830,
-    "completitionYear": 1830,
-    "image": "https://uploads0.wikiart.org/images/eugene-delacroix/liberty-leading-the-people-1830.jpg"
+    "year": 1830,
+    "imageUrl": "https://uploads0.wikiart.org/images/eugene-delacroix/liberty-leading-the-people-1830.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-15",
     "title": "The Garden of Earthly Delights",
     "artistName": "Hieronymus Bosch",
-    "completionYear": 1510,
-    "completitionYear": 1510,
-    "image": "https://uploads0.wikiart.org/images/hieronymus-bosch/the-garden-of-earthly-delights-1515-7.jpg"
+    "year": 1510,
+    "imageUrl": "https://uploads0.wikiart.org/images/hieronymus-bosch/the-garden-of-earthly-delights-1515-7.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-16",
     "title": "Impression, Sunrise",
     "artistName": "Claude Monet",
-    "completionYear": 1872,
-    "completitionYear": 1872,
-    "image": "https://uploads0.wikiart.org/images/claude-monet/impression-sunrise.jpg"
+    "year": 1872,
+    "imageUrl": "https://uploads0.wikiart.org/images/claude-monet/impression-sunrise.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-17",
     "title": "Las Meninas",
     "artistName": "Diego Velazquez",
-    "completionYear": 1656,
-    "completitionYear": 1656,
-    "image": "https://uploads0.wikiart.org/images/diego-velazquez/las-meninas-1656.jpg"
+    "year": 1656,
+    "imageUrl": "https://uploads0.wikiart.org/images/diego-velazquez/las-meninas-1656.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-18",
     "title": "The Creation of Adam",
     "artistName": "Michelangelo",
-    "completionYear": 1512,
-    "completitionYear": 1512,
-    "image": "https://uploads0.wikiart.org/images/michelangelo/sistine-chapel-ceiling-creation-of-adam-1510.jpg"
+    "year": 1512,
+    "imageUrl": "https://uploads0.wikiart.org/images/michelangelo/sistine-chapel-ceiling-creation-of-adam-1510.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-19",
     "title": "Composition VIII",
     "artistName": "Wassily Kandinsky",
-    "completionYear": 1923,
-    "completitionYear": 1923,
-    "image": "https://uploads0.wikiart.org/images/wassily-kandinsky/composition-viii-1923.jpg"
+    "year": 1923,
+    "imageUrl": "https://uploads0.wikiart.org/images/wassily-kandinsky/composition-viii-1923.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-20",
     "title": "Nighthawks",
     "artistName": "Edward Hopper",
-    "completionYear": 1942,
-    "completitionYear": 1942,
-    "image": "https://uploads0.wikiart.org/images/edward-hopper/nighthawks.jpg"
+    "year": 1942,
+    "imageUrl": "https://uploads0.wikiart.org/images/edward-hopper/nighthawks.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-21",
     "title": "The School of Athens",
     "artistName": "Raphael",
-    "completionYear": 1511,
-    "completitionYear": 1511,
-    "image": "https://uploads0.wikiart.org/images/raphael/the-school-of-athens-1511.jpg"
+    "year": 1511,
+    "imageUrl": "https://uploads0.wikiart.org/images/raphael/the-school-of-athens-1511.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-22",
     "title": "Wanderer above the Sea of Fog",
     "artistName": "Caspar David Friedrich",
-    "completionYear": 1818,
-    "completitionYear": 1818,
-    "image": "https://uploads0.wikiart.org/images/caspar-david-friedrich/the-wanderer-above-the-sea-of-fog.jpg"
+    "year": 1818,
+    "imageUrl": "https://uploads0.wikiart.org/images/caspar-david-friedrich/the-wanderer-above-the-sea-of-fog.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-23",
     "title": "The Arnolfini Portrait",
     "artistName": "Jan van Eyck",
-    "completionYear": 1434,
-    "completitionYear": 1434,
-    "image": "https://uploads0.wikiart.org/images/jan-van-eyck/the-arnolfini-portrait-1434.jpg"
+    "year": 1434,
+    "imageUrl": "https://uploads0.wikiart.org/images/jan-van-eyck/the-arnolfini-portrait-1434.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-24",
     "title": "The Third of May 1808",
     "artistName": "Francisco Goya",
-    "completionYear": 1814,
-    "completitionYear": 1814,
-    "image": "https://uploads0.wikiart.org/images/francisco-goya/the-third-of-may-1808-1814.jpg"
+    "year": 1814,
+    "imageUrl": "https://uploads0.wikiart.org/images/francisco-goya/the-third-of-may-1808-1814.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-25",
     "title": "A Bar at the Folies-Bergere",
     "artistName": "Edouard Manet",
-    "completionYear": 1882,
-    "completitionYear": 1882,
-    "image": "https://uploads0.wikiart.org/images/edouard-manet/a-bar-at-the-folies-bergere-1882.jpg"
+    "year": 1882,
+    "imageUrl": "https://uploads0.wikiart.org/images/edouard-manet/a-bar-at-the-folies-bergere-1882.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-26",
     "title": "The Hay Wain",
     "artistName": "John Constable",
-    "completionYear": 1821,
-    "completitionYear": 1821,
-    "image": "https://uploads0.wikiart.org/images/john-constable/the-hay-wain-1821.jpg"
+    "year": 1821,
+    "imageUrl": "https://uploads0.wikiart.org/images/john-constable/the-hay-wain-1821.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-27",
     "title": "Olympia",
     "artistName": "Edouard Manet",
-    "completionYear": 1863,
-    "completitionYear": 1863,
-    "image": "https://uploads0.wikiart.org/images/edouard-manet/olympia-1863.jpg"
+    "year": 1863,
+    "imageUrl": "https://uploads0.wikiart.org/images/edouard-manet/olympia-1863.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-28",
     "title": "The Raft of the Medusa",
     "artistName": "Theodore Gericault",
-    "completionYear": 1819,
-    "completitionYear": 1819,
-    "image": "https://uploads0.wikiart.org/images/theodore-gericault/the-raft-of-the-medusa-1819.jpg"
+    "year": 1819,
+    "imageUrl": "https://uploads0.wikiart.org/images/theodore-gericault/the-raft-of-the-medusa-1819.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-29",
     "title": "Saturn Devouring His Son",
     "artistName": "Francisco Goya",
-    "completionYear": 1823,
-    "completitionYear": 1823,
-    "image": "https://uploads0.wikiart.org/images/francisco-goya/saturn-devouring-his-son-1823.jpg"
+    "year": 1823,
+    "imageUrl": "https://uploads0.wikiart.org/images/francisco-goya/saturn-devouring-his-son-1823.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-30",
     "title": "The Last Supper",
     "artistName": "Leonardo da Vinci",
-    "completionYear": 1498,
-    "completitionYear": 1498,
-    "image": "https://uploads0.wikiart.org/images/leonardo-da-vinci/the-last-supper-1495-1498.jpg"
+    "year": 1498,
+    "imageUrl": "https://uploads0.wikiart.org/images/leonardo-da-vinci/the-last-supper-1495-1498.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-31",
     "title": "The Sleeping Gypsy",
     "artistName": "Henri Rousseau",
-    "completionYear": 1897,
-    "completitionYear": 1897,
-    "image": "https://uploads0.wikiart.org/images/henri-rousseau/the-sleeping-gypsy-1897.jpg"
+    "year": 1897,
+    "imageUrl": "https://uploads0.wikiart.org/images/henri-rousseau/the-sleeping-gypsy-1897.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-32",
     "title": "The Son of Man",
     "artistName": "Rene Magritte",
-    "completionYear": 1964,
-    "completitionYear": 1964,
-    "image": "https://uploads0.wikiart.org/images/rene-magritte/son-of-man-1964.jpg"
+    "year": 1964,
+    "imageUrl": "https://uploads0.wikiart.org/images/rene-magritte/son-of-man-1964.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-33",
     "title": "Dogs Playing Poker",
     "artistName": "Cassius Marcellus Coolidge",
-    "completionYear": 1903,
-    "completitionYear": 1903,
-    "image": "https://uploads0.wikiart.org/images/cassius-marcellus-coolidge/a-friend-in-need-1903.jpg"
+    "year": 1903,
+    "imageUrl": "https://uploads0.wikiart.org/images/cassius-marcellus-coolidge/a-friend-in-need-1903.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-34",
     "title": "Cafe Terrace at Night",
     "artistName": "Vincent van Gogh",
-    "completionYear": 1888,
-    "completitionYear": 1888,
-    "image": "https://uploads0.wikiart.org/images/vincent-van-gogh/the-cafe-terrace-on-the-place-du-forum-arles-at-night-1888.jpg"
+    "year": 1888,
+    "imageUrl": "https://uploads0.wikiart.org/images/vincent-van-gogh/the-cafe-terrace-on-the-place-du-forum-arles-at-night-1888.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-35",
     "title": "Self-Portrait with Thorn Necklace",
     "artistName": "Frida Kahlo",
-    "completionYear": 1940,
-    "completitionYear": 1940,
-    "image": "https://uploads0.wikiart.org/images/magdalena-carmen-frieda-kahlo-y-calderón/self-portrait-with-thorn-necklace-and-hummingbird-1940.jpg"
+    "year": 1940,
+    "imageUrl": "https://uploads0.wikiart.org/images/magdalena-carmen-frieda-kahlo-y-calderón/self-portrait-with-thorn-necklace-and-hummingbird-1940.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-36",
     "title": "No. 5, 1948",
     "artistName": "Jackson Pollock",
-    "completionYear": 1948,
-    "completitionYear": 1948,
-    "image": "https://uploads0.wikiart.org/images/jackson-pollock/no-5-1948.jpg"
+    "year": 1948,
+    "imageUrl": "https://uploads0.wikiart.org/images/jackson-pollock/no-5-1948.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-37",
     "title": "Christina's World",
     "artistName": "Andrew Wyeth",
-    "completionYear": 1948,
-    "completitionYear": 1948,
-    "image": "https://uploads0.wikiart.org/images/andrew-wyeth/christina-s-world-1948.jpg"
+    "year": 1948,
+    "imageUrl": "https://uploads0.wikiart.org/images/andrew-wyeth/christina-s-world-1948.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-38",
     "title": "The Tower of Babel",
     "artistName": "Pieter Bruegel the Elder",
-    "completionYear": 1563,
-    "completitionYear": 1563,
-    "image": "https://uploads0.wikiart.org/images/pieter-bruegel-the-elder/the-tower-of-babel-1563.jpg"
+    "year": 1563,
+    "imageUrl": "https://uploads0.wikiart.org/images/pieter-bruegel-the-elder/the-tower-of-babel-1563.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-39",
     "title": "The Swing",
     "artistName": "Jean-Honore Fragonard",
-    "completionYear": 1767,
-    "completitionYear": 1767,
-    "image": "https://uploads0.wikiart.org/images/jean-honore-fragonard/the-swing-1767.jpg"
+    "year": 1767,
+    "imageUrl": "https://uploads0.wikiart.org/images/jean-honore-fragonard/the-swing-1767.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-40",
     "title": "Sunflowers",
     "artistName": "Vincent van Gogh",
-    "completionYear": 1888,
-    "completitionYear": 1888,
-    "image": "https://uploads0.wikiart.org/images/vincent-van-gogh/still-life-vase-with-twelve-sunflowers-1888-1.jpg"
+    "year": 1888,
+    "imageUrl": "https://uploads0.wikiart.org/images/vincent-van-gogh/still-life-vase-with-twelve-sunflowers-1888-1.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-41",
     "title": "The Treachery of Images",
     "artistName": "Rene Magritte",
-    "completionYear": 1929,
-    "completitionYear": 1929,
-    "image": "https://uploads0.wikiart.org/images/rene-magritte/the-treachery-of-images-this-is-not-a-pipe-1928.jpg"
+    "year": 1929,
+    "imageUrl": "https://uploads0.wikiart.org/images/rene-magritte/the-treachery-of-images-this-is-not-a-pipe-1928.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-42",
     "title": "Black Square",
     "artistName": "Kazimir Malevich",
-    "completionYear": 1915,
-    "completitionYear": 1915,
-    "image": "https://uploads0.wikiart.org/images/kazimir-malevich/black-square-1915.jpg"
+    "year": 1915,
+    "imageUrl": "https://uploads0.wikiart.org/images/kazimir-malevich/black-square-1915.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-43",
     "title": "The Dance",
     "artistName": "Henri Matisse",
-    "completionYear": 1910,
-    "completitionYear": 1910,
-    "image": "https://uploads0.wikiart.org/images/henri-matisse/dance-ii-1910.jpg"
+    "year": 1910,
+    "imageUrl": "https://uploads0.wikiart.org/images/henri-matisse/dance-ii-1910.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-44",
     "title": "Broadway Boogie Woogie",
     "artistName": "Piet Mondrian",
-    "completionYear": 1943,
-    "completitionYear": 1943,
-    "image": "https://uploads0.wikiart.org/images/piet-mondrian/broadway-boogie-woogie-1943.jpg"
+    "year": 1943,
+    "imageUrl": "https://uploads0.wikiart.org/images/piet-mondrian/broadway-boogie-woogie-1943.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-45",
     "title": "The Luncheon on the Grass",
     "artistName": "Edouard Manet",
-    "completionYear": 1863,
-    "completitionYear": 1863,
-    "image": "https://uploads0.wikiart.org/images/edouard-manet/the-luncheon-on-the-grass-1863.jpg"
+    "year": 1863,
+    "imageUrl": "https://uploads0.wikiart.org/images/edouard-manet/the-luncheon-on-the-grass-1863.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-46",
     "title": "Bal du moulin de la Galette",
     "artistName": "Pierre-Auguste Renoir",
-    "completionYear": 1876,
-    "completitionYear": 1876,
-    "image": "https://uploads0.wikiart.org/images/pierre-auguste-renoir/dance-at-le-moulin-de-la-galette-1876.jpg"
+    "year": 1876,
+    "imageUrl": "https://uploads0.wikiart.org/images/pierre-auguste-renoir/dance-at-le-moulin-de-la-galette-1876.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-47",
     "title": "The Bedroom",
     "artistName": "Vincent van Gogh",
-    "completionYear": 1888,
-    "completitionYear": 1888,
-    "image": "https://uploads0.wikiart.org/images/vincent-van-gogh/the-bedroom-1888.jpg"
+    "year": 1888,
+    "imageUrl": "https://uploads0.wikiart.org/images/vincent-van-gogh/the-bedroom-1888.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-48",
     "title": "Young Girl Reading",
     "artistName": "Jean-Honore Fragonard",
-    "completionYear": 1776,
-    "completitionYear": 1776,
-    "image": "https://uploads0.wikiart.org/images/jean-honore-fragonard/a-young-girl-reading-1776.jpg"
+    "year": 1776,
+    "imageUrl": "https://uploads0.wikiart.org/images/jean-honore-fragonard/a-young-girl-reading-1776.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-49",
     "title": "The Weeping Woman",
     "artistName": "Pablo Picasso",
-    "completionYear": 1937,
-    "completitionYear": 1937,
-    "image": "https://uploads0.wikiart.org/images/pablo-picasso/weeping-woman-1937.jpg"
+    "year": 1937,
+    "imageUrl": "https://uploads0.wikiart.org/images/pablo-picasso/weeping-woman-1937.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   },
   {
     "id": "fallback-50",
     "title": "Campbell's Soup Cans",
     "artistName": "Andy Warhol",
-    "completionYear": 1962,
-    "completitionYear": 1962,
-    "image": "https://uploads0.wikiart.org/images/andy-warhol/campbell-s-soup-cans-1962.jpg"
+    "year": 1962,
+    "imageUrl": "https://uploads0.wikiart.org/images/andy-warhol/campbell-s-soup-cans-1962.jpg",
+    "style": null, "movement": null, "museum": null, "sourceUrl": null
   }
 ]

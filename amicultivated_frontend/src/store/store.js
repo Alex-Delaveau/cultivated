@@ -45,14 +45,16 @@ export const store = new createStore({
             currentRoundResults: {},
             timerSeconds: 30,
             difficulty: 0,
+            theme: 'global',
         }),
         chosenArtInfo: safeParse('chosenArtInfo', {
             artist: '',
             title: '',
             year: '',
             style: '',
-            genre: '',
-            wikiartUrl: '',
+            movement: '',
+            museum: '',
+            sourceUrl: '',
         }),
     },
     mutations: {
@@ -103,6 +105,7 @@ export const store = new createStore({
                 currentRoundResults: {},
                 timerSeconds: 30,
                 difficulty: 0,
+                theme: 'global',
             };
         },
         changeRoomStatus(state, status) {
@@ -117,8 +120,9 @@ export const store = new createStore({
                 title: '',
                 year: '',
                 style: '',
-                genre: '',
-                wikiartUrl: '',
+                movement: '',
+                museum: '',
+                sourceUrl: '',
             };
         }
     },

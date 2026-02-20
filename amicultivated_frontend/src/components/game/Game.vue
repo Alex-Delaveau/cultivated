@@ -149,7 +149,7 @@ const initSocketHandlers = () => {
         const img = new Image();
         img.onload = () => { loading.value = false; };
         img.onerror = () => { loading.value = false; };
-        img.src = data.artInfo[0].image;
+        img.src = data.artInfo[0].imageUrl;
     });
 
     props.socketManager.onRoundEnded((data) => {
@@ -188,7 +188,7 @@ const leaveGame = () => {
 
 const formatRoundInfos = (artsInfo) => {
     currentRoundInfos.value.artAnswers = [];
-    currentRoundInfos.value.image = artsInfo[0].image;
+    currentRoundInfos.value.image = artsInfo[0].imageUrl;
     for (let i = 0; i < artsInfo.length; i++) {
         currentRoundInfos.value.artAnswers.push(artsInfo[i]);
     }
