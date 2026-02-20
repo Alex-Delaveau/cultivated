@@ -43,6 +43,9 @@ services:
     image: ubuntu/squid
     container_name: amicultivated_squid
     restart: unless-stopped
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     volumes:
       - ./squid/squid.conf:/etc/squid/squid.conf:ro
     networks:
@@ -53,4 +56,4 @@ networks:
   internal-network:
     external: true
   web-network:
-    driver: bridge
+    external: true

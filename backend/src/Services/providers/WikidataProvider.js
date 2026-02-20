@@ -111,7 +111,7 @@ export default class WikidataProvider extends ArtProvider {
                 'Accept': 'application/sparql-results+json',
                 'User-Agent': 'AMICULTIVATED/1.0',
             },
-            timeout: 30000,
+            timeout: 55000,
             proxy: _proxyConfig,
         });
 
