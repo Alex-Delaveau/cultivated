@@ -10,6 +10,8 @@ services:
     restart: unless-stopped
     networks:
       - internal-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       - NODE_ENV=production
       - API=3000
@@ -18,7 +20,7 @@ services:
       - DB_HOST=sqlite
       - DB_PORT=/app/data/database.sqlite
       - ART_PROVIDER=${ART_PROVIDER:-wikidata}
-      - HTTPS_PROXY=http://squid:3128
+      - HTTPS_PROXY=http://host.docker.internal:3128
     volumes:
       - ./data:/app/data
     depends_on:
@@ -43,17 +45,10 @@ services:
     image: ubuntu/squid
     container_name: amicultivated_squid
     restart: unless-stopped
-    dns:
-      - 8.8.8.8
-      - 1.1.1.1
+    network_mode: "host"
     volumes:
       - ./squid/squid.conf:/etc/squid/squid.conf:ro
-    networks:
-      - internal-network
-      - web-network
 
 networks:
   internal-network:
-    external: true
-  web-network:
     external: true
