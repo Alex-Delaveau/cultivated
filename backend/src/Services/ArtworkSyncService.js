@@ -1,6 +1,15 @@
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import WikidataProvider from './providers/WikidataProvider.js';
 import ArtworkRepository from '../Repository/ArtworkRepository.js';
 import Logger from '../Logger/Logger.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const _fallbackArtworks = JSON.parse(
+    readFileSync(join(__dirname, 'fallbackArtworks.json'), 'utf-8')
+);
 
 const THEMES = ['classic', 'modern', 'japanese', 'impressionist'];
 const MIN_PER_THEME = 200;
@@ -55,30 +64,43 @@ export default class ArtworkSyncService {
         Logger.success(`[ArtworkSync] theme "${theme}" done — ${final} artworks in DB`);
     }
 
+    async seedFromFallback() {
+        const count = await this._repo.countByTheme('global');
+        if (count >= _fallbackArtworks.length) {
+            Logger.info('[ArtworkSync] fallback artworks already seeded — skipping');
+            return;
+        }
+        Logger.info(`[ArtworkSync] seeding ${_fallbackArtworks.length} fallback artworks into DB...`);
+        for (const artwork of _fallbackArtworks) {
+            await this._repo.upsert(artwork, 'global');
+            const year = artwork.year;
+            const movement = (artwork.movement || '').toLowerCase();
+            if (year && year < 1800)                 await this._repo.upsert(artwork, 'classic');
+            if (year && year >= 1850 && year < 1970) await this._repo.upsert(artwork, 'modern');
+            if (movement.includes('impressi'))       await this._repo.upsert(artwork, 'impressionist');
+        }
+        Logger.success('[ArtworkSync] fallback seed complete');
+    }
+
     async syncAll() {
-        // Step 1: sync the 4 specific themes with pagination
+        // Step 0: seed fallback artworks immediately (no network needed)
+        await this.seedFromFallback();
+
+        // Step 1: sync specific themes from Wikidata
         for (const theme of THEMES) {
-            try {
-                await this.syncTheme(theme);
-            } catch (e) {
-                Logger.warning(`[ArtworkSync] failed for theme "${theme}": ${e.message}`);
-            }
+            try { await this.syncTheme(theme); }
+            catch (e) { Logger.warning(`[ArtworkSync] failed for theme "${theme}": ${e.message}`); }
         }
 
-        // Step 2: populate global by reusing artworks from all specific themes (single SQL UPDATE)
+        // Step 2: mark all themed artworks as global
         Logger.info('[ArtworkSync] populating global from themed artworks...');
         await this._repo.markThemedAsGlobal();
         const globalCount = await this._repo.countByTheme('global');
         Logger.success(`[ArtworkSync] global theme now has ${globalCount} artworks`);
 
-        // Step 3: if global is still below threshold, try SPARQL for it too
         if (globalCount < MIN_PER_THEME) {
-            Logger.info('[ArtworkSync] global still below threshold — attempting SPARQL...');
-            try {
-                await this.syncTheme('global');
-            } catch (e) {
-                Logger.warning(`[ArtworkSync] global SPARQL failed: ${e.message}`);
-            }
+            try { await this.syncTheme('global'); }
+            catch (e) { Logger.warning(`[ArtworkSync] global SPARQL failed: ${e.message}`); }
         }
     }
 }

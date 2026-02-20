@@ -121,8 +121,7 @@ class RoundSocketManager {
         this.currentCorrectAnswerId = this.chosenArtList[0].id;
         this.playersResponses = {};
 
-        // Reset per-round hint tracking
-        this.playerHintsUsed = new Set();
+        // Reset per-round hint penalty (playerHintsUsed is NOT reset — 1 hint per game total)
         this.playerHintPenalty = {};
 
         // Start round timer
