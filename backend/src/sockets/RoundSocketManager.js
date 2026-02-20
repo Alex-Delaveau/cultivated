@@ -283,10 +283,9 @@ class RoundSocketManager {
             answerData: answerData
         });
 
-        // If this was the last round, finalize game history automatically.
-        // This handles the normal flow where endGame() is never called.
+        // If this was the last round, end the game automatically.
         if (this.maxRounds !== null && this.roundCount >= this.maxRounds) {
-            this.finalizeGameHistory();
+            this.endGame();
         }
     }
 
