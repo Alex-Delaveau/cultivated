@@ -4,10 +4,21 @@ class RoomSocketManager {
 
     static instance = null;
     socket = null;
+    currentRoomCode = null;
+    currentUser = null;
 
     constructor() {
         this.socket = io((import.meta.env.VITE_SOCKET_URL || 'http://localhost:3000') + '/room', {
             withCredentials: true,
+            transports: ['websocket'],
+        });
+        this.socket.on('connect', () => {
+            if (this.currentRoomCode && this.currentUser) {
+                this.socket.emit('joinRoom', {
+                    roomCode: this.currentRoomCode,
+                    user: this.currentUser,
+                });
+            }
         });
     }
 
@@ -19,6 +30,8 @@ class RoomSocketManager {
     }
 
     joinRoom(roomCode, user) {
+        this.currentRoomCode = roomCode;
+        this.currentUser = user;
         this.socket.emit('joinRoom', {
             roomCode: roomCode,
             user: user
@@ -26,6 +39,8 @@ class RoomSocketManager {
     }
 
     leaveRoom(roomCode, user) {
+        this.currentRoomCode = null;
+        this.currentUser = null;
         this.socket.emit('leaveRoom', {
             roomCode: roomCode,
             user: user
