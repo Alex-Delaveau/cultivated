@@ -96,14 +96,16 @@ export default class WikidataProvider extends ArtProvider {
         return fallbackArtworks;
     }
 
-    async _fetchFromWikidata(theme) {
-        const query = this._buildQuery(theme);
+    async _fetchFromWikidata(theme, offset = 0) {
+        const query = this._buildQuery(theme, offset);
 
         // Write query to a temp file so it can be tested with curl (avoids shell escaping issues)
         const queryFile = join(tmpdir(), `wikidata-query-${theme}.sparql`);
         try { writeFileSync(queryFile, query, 'utf-8'); } catch (_) { /* non-blocking */ }
-        console.log(`[WikidataProvider] query written to ${queryFile}`);
-        console.log(`[WikidataProvider] test with: curl -s -G '${SPARQL_ENDPOINT}' --data-urlencode "query@${queryFile}" -H 'Accept: application/sparql-results+json' | python3 -m json.tool | head -60`);
+        if (offset === 0) {
+            console.log(`[WikidataProvider] query written to ${queryFile}`);
+            console.log(`[WikidataProvider] test with: curl -s -G '${SPARQL_ENDPOINT}' --data-urlencode "query@${queryFile}" -H 'Accept: application/sparql-results+json' | python3 -m json.tool | head -60`);
+        }
 
         const url = `${SPARQL_ENDPOINT}?query=${encodeURIComponent(query)}`;
         const response = await axios.get(url, {
@@ -115,7 +117,7 @@ export default class WikidataProvider extends ArtProvider {
             proxy: _proxyConfig,
         });
 
-        console.log(`[WikidataProvider] HTTP ${response.status}, raw bindings: ${response.data?.results?.bindings?.length ?? '?'}`);
+        console.log(`[WikidataProvider] HTTP ${response.status}, raw bindings: ${response.data?.results?.bindings?.length ?? '?'} (theme: ${theme}, offset: ${offset})`);
         const results = response.data?.results?.bindings;
         if (!results) throw new Error('Unexpected Wikidata SPARQL response format');
 
@@ -142,7 +144,7 @@ export default class WikidataProvider extends ArtProvider {
         return [art.year, art.style, art.movement, art.museum].filter(Boolean).length;
     }
 
-    _buildQuery(theme) {
+    _buildQuery(theme, offset = 0) {
         const { clause, requireInception } = THEME_EXTRAS[theme] ?? THEME_EXTRAS.global;
         const inceptionTriple = requireInception
             ? '?item wdt:P571 ?inception .'
@@ -150,6 +152,7 @@ export default class WikidataProvider extends ArtProvider {
 
         // No ORDER BY, no sitelinks join — streams results immediately, stops at LIMIT.
         // Notability filter: only paintings with an English Wikipedia article.
+        const offsetClause = offset > 0 ? `OFFSET ${offset}` : '';
         return `
 SELECT ?item ?itemLabel ?artistLabel ?image
        ?inception ?genreLabel ?movementLabel ?locationLabel
@@ -168,6 +171,7 @@ WHERE {
   SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en". }
 }
 LIMIT 100
+${offsetClause}
 `;
     }
 

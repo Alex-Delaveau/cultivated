@@ -10,20 +10,17 @@ class Models {
         return [UserModel.getInstance(), RoomModel.getInstance(), GameHistoryModel.getInstance(), ArtworkModel.getInstance()];
     }
 
-    static initModels() {
-        return new Promise(async (resolve, reject) => {
-            try {
-    
-                for (let model of Models.allModels) {
-                    let modelInstance = model.getModel();
-                    await modelInstance.sync({alter: true});
-                    Logger.success(`Model ${modelInstance.name} synced`);
-                }
-            } catch (e) {
-                Logger.error("Failed to init and sync models");
-                throw e;
+    static async initModels() {
+        try {
+            for (let model of Models.allModels) {
+                let modelInstance = model.getModel();
+                await modelInstance.sync({alter: true});
+                Logger.success(`Model ${modelInstance.name} synced`);
             }
-        });
+        } catch (e) {
+            Logger.error("Failed to init and sync models");
+            throw e;
+        }
     }
 
 

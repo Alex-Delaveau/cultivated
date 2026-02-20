@@ -13,12 +13,18 @@ const fallbackArtworks = JSON.parse(
 export default class DatabaseArtProvider extends ArtProvider {
     constructor() {
         super();
-        this._repo = new ArtworkRepository();
+        this._repo = null; // lazy-init: DB may not be ready at module import time
+    }
+
+    _getRepo() {
+        if (!this._repo) this._repo = new ArtworkRepository();
+        return this._repo;
     }
 
     async getArtworksForRound(difficulty, excludeIds = [], theme = 'global') {
-        let pool = await this._repo.getByTheme(theme);
-        if (pool.length < 4) pool = await this._repo.getByTheme('global');
+        const repo = this._getRepo();
+        let pool = await repo.getByTheme(theme);
+        if (pool.length < 4) pool = await repo.getByTheme('global');
         if (pool.length < 4) pool = fallbackArtworks;
 
         const n = pool.length;

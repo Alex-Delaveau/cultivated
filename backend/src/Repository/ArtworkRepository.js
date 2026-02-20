@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import ArtworkModel from '../Model/ArtworkModel.js';
 
 const THEME_COLUMNS = {
@@ -61,6 +62,20 @@ class ArtworkRepository {
         if (!themeCol) throw new Error(`Unknown theme: ${theme}`);
 
         return await this.model.count({ where: { [themeCol]: true } });
+    };
+
+    // Mark every artwork that belongs to any specific theme as also belonging to global.
+    // Single SQL UPDATE — used after syncing themed artworks so global is populated for free.
+    markThemedAsGlobal = async () => {
+        await this.model.update(
+            { themeGlobal: true },
+            { where: { [Op.or]: [
+                { themeClassic:       true },
+                { themeModern:        true },
+                { themeJapanese:      true },
+                { themeImpressionist: true },
+            ]}}
+        );
     };
 }
 
