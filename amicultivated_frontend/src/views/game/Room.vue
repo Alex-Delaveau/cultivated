@@ -1,7 +1,9 @@
 <template>
-    <RoomStarting v-if="isGameOpen()" :roomInfos="roomInfo" :errorMessage="errorMessage" @startGame="startGame"
-        @leaveRoom="leaveRoom" @updateRoom="sendUpdateRoom" />
-    <Game ref="gameRef" v-if="isGameStarted()" :roomInfos="roomInfo" :socketManager="socketManager" @leaveGame="leaveRoom" @endGame="endGame" @roundEnd="roundEnd" />
+    <div>
+        <RoomStarting v-if="isGameOpen()" :roomInfos="roomInfo" :errorMessage="errorMessage" @startGame="startGame"
+            @leaveRoom="leaveRoom" @updateRoom="sendUpdateRoom" />
+        <Game ref="gameRef" v-else-if="isGameStarted()" :roomInfos="roomInfo" :socketManager="socketManager" @leaveGame="leaveRoom" @endGame="endGame" @roundEnd="roundEnd" />
+    </div>
 </template>
 
 <script setup>

@@ -14,6 +14,18 @@ const fallbackArtworks = JSON.parse(
 const SPARQL_ENDPOINT = 'https://query.wikidata.org/sparql';
 const CACHE_TTL = 12 * 60 * 60 * 1000; // 12 hours
 
+// Read optional egress proxy (set via HTTPS_PROXY env in docker-compose)
+const _proxyConfig = (() => {
+    const raw = process.env.HTTPS_PROXY || process.env.https_proxy;
+    if (!raw) return false;
+    try {
+        const u = new URL(raw);
+        return { protocol: 'http', host: u.hostname, port: parseInt(u.port) || 3128 };
+    } catch (_) {
+        return false;
+    }
+})();
+
 // Extra WHERE triples or FILTER clauses injected per theme
 const THEME_EXTRAS = {
     global:        { clause: '',                              requireInception: false },
@@ -100,6 +112,7 @@ export default class WikidataProvider extends ArtProvider {
                 'User-Agent': 'AMICULTIVATED/1.0',
             },
             timeout: 30000,
+            proxy: _proxyConfig,
         });
 
         console.log(`[WikidataProvider] HTTP ${response.status}, raw bindings: ${response.data?.results?.bindings?.length ?? '?'}`);

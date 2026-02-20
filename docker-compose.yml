@@ -16,8 +16,12 @@ services:
       - CORS_ORIGINS=${CORS_ORIGINS}
       - DB_HOST=sqlite
       - DB_PORT=/app/data/database.sqlite
+      - ART_PROVIDER=${ART_PROVIDER:-wikidata}
+      - HTTPS_PROXY=http://squid:3128
     volumes:
       - ./data:/app/data
+    depends_on:
+      - squid
 
   amicultivated_frontend:
     build:
@@ -33,6 +37,18 @@ services:
     depends_on:
       - amicultivated_backend
 
+  squid:
+    image: ubuntu/squid
+    container_name: amicultivated_squid
+    restart: unless-stopped
+    volumes:
+      - ./squid/squid.conf:/etc/squid/squid.conf:ro
+    networks:
+      - internal-network
+      - web-network
+
 networks:
   internal-network:
     external: true
+  web-network:
+    driver: bridge
